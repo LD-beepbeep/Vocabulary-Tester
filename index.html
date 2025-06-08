@@ -9,50 +9,35 @@
 </head>
 <body>
   <div class="container">
-    <!-- Profile & Background picker (home only) -->
-    <div id="corner-controls">
-      <label class="profile-pic-label">
-        <input type="file" id="profile-pic-input" accept="image/*" style="display:none;">
-        <img id="profile-pic" src="default-profile.png" alt="Profile" title="Click to change your profile picture">
-      </label>
-      <select id="bg-picker" title="Change background"></select>
-    </div>
-    <!-- LOGIN SCREEN -->
-    <div id="login-screen" class="screen active">
-      <div id="login-header">VOC Trainer</div>
-      <div id="login-sub">by Lars — Please log in!</div>
-      <label for="login-username">Username</label>
-      <input type="text" id="login-username" autocomplete="username" placeholder="Enter username">
-      <label for="login-password">Password</label>
-      <input type="password" id="login-password" autocomplete="current-password" placeholder="Enter password">
-      <button class="btn btn-accent" id="login-btn">Login</button>
-      <div id="login-error"></div>
-    </div>
-    <!-- Onboarding -->
+    <!-- Onboarding (show only if needed) -->
     <div id="onboarding-screen" class="screen">
-      <div class="onboard-content">
+      <form id="onboard-form" class="onboard-card">
         <h2>Welcome! Set up your vocab trainer:</h2>
-        <form id="onboard-form">
-          <div>
-            <label>Which language(s) do you want to learn?</label>
+        <!-- Step 1: Choose language(s) -->
+        <div class="onboard-step" id="onboard-step-lang">
+          <label class="onboard-label">Which language pair(s) do you want to learn?</label>
+          <div class="onboard-lang-choices">
             <label><input type="checkbox" name="langs" value="fr-nl"> French ⇄ Dutch</label>
             <label><input type="checkbox" name="langs" value="en-nl"> English ⇄ Dutch</label>
           </div>
-          <div>
-            <label>How good are you in each language?</label>
-            <div id="levels"></div>
-          </div>
-          <div>
-            <label>Why do you want to learn?</label>
-            <select name="motivation" id="motivation">
-              <option value="school">For school</option>
-              <option value="travel">For travel</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
+          <button type="button" class="btn btn-accent" id="onboard-next-motivation">Next</button>
+        </div>
+        <!-- Step 2: Motivation -->
+        <div class="onboard-step" id="onboard-step-motivation" style="display:none;">
+          <label class="onboard-label">Why do you want to learn?</label>
+          <select name="motivation" id="motivation">
+            <option value="school">For school</option>
+            <option value="travel">For travel</option>
+            <option value="other">Other</option>
+          </select>
+          <button type="button" class="btn btn-accent" id="onboard-next-level">Next</button>
+        </div>
+        <!-- Step 3: Levels -->
+        <div class="onboard-step" id="onboard-step-level" style="display:none;">
+          <div id="levels"></div>
           <button type="submit" class="btn btn-accent">Start!</button>
-        </form>
-      </div>
+        </div>
+      </form>
     </div>
     <!-- Language selector -->
     <div id="language-selector" style="display:none">
