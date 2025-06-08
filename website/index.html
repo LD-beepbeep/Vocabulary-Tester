@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Vocabulary Trainer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="style.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <!-- Profile & Background picker (home only) -->
+    <div id="corner-controls">
+      <label class="profile-pic-label">
+        <input type="file" id="profile-pic-input" accept="image/*" style="display:none;">
+        <img id="profile-pic" src="default-profile.png" alt="Profile" title="Click to change your profile picture">
+      </label>
+      <select id="bg-picker" title="Change background"></select>
+    </div>
+    <!-- LOGIN SCREEN -->
+    <div id="login-screen" class="screen active">
+      <div id="login-header">VOC Trainer</div>
+      <div id="login-sub">by Lars — Please log in!</div>
+      <label for="login-username">Username</label>
+      <input type="text" id="login-username" autocomplete="username" placeholder="Enter username">
+      <label for="login-password">Password</label>
+      <input type="password" id="login-password" autocomplete="current-password" placeholder="Enter password">
+      <button class="btn btn-accent" id="login-btn">Login</button>
+      <div id="login-error"></div>
+    </div>
+    <!-- Onboarding -->
+    <div id="onboarding-screen" class="screen">
+      <div class="onboard-content">
+        <h2>Welcome! Set up your vocab trainer:</h2>
+        <form id="onboard-form">
+          <div>
+            <label>Which language(s) do you want to learn?</label>
+            <label><input type="checkbox" name="langs" value="fr-nl"> French ⇄ Dutch</label>
+            <label><input type="checkbox" name="langs" value="en-nl"> English ⇄ Dutch</label>
+          </div>
+          <div>
+            <label>How good are you in each language?</label>
+            <div id="levels"></div>
+          </div>
+          <div>
+            <label>Why do you want to learn?</label>
+            <select name="motivation" id="motivation">
+              <option value="school">For school</option>
+              <option value="travel">For travel</option>
+              <option value="other">Other</option>
+            </select>
+          </div>
+          <button type="submit" class="btn btn-accent">Start!</button>
+        </form>
+      </div>
+    </div>
+    <!-- Language selector -->
+    <div id="language-selector" style="display:none">
+      <label for="lang-choice">Quiz Language: </label>
+      <select id="lang-choice"></select>
+      <button class="btn btn-small" id="add-lang-btn" title="Add language pair">＋</button>
+      <button class="btn btn-small" id="remove-lang-btn" title="Remove current language pair">🗑</button>
+    </div>
+    <!-- Main Menu -->
+    <div id="main-menu" class="screen">
+      <h1 class="centered-title">Vocabulary Trainer</h1>
+      <div class="menu-list">
+        <button class="btn btn-secondary" onclick="showScreen('add-word-menu')">Add New Word</button>
+        <button class="btn btn-accent" onclick="showScreen('upload-bulk-menu')">Bulk Upload</button>
+        <button class="btn" onclick="startQuiz()">Start Quiz</button>
+        <button class="btn" onclick="showScreen('practice-hard-menu')">Practice Hard Words</button>
+        <button class="btn" onclick="showScreen('practice-custom-menu')">Practice Custom Words</button>
+        <button class="btn btn-secondary" onclick="showStatsScreen()">View Stats</button>
+        <button class="btn btn-secondary" onclick="window.logout()">Logout</button>
+      </div>
+      <div style="margin: 1.3em 0 1.2em 0;">
+        <p>Words in vocabulary: <span id="vocab-count"></span></p>
+        <p>Hard words: <span id="hard-count"></span></p>
+        <div id="streak-bar"></div>
+      </div>
+      <div class="footer">
+        Made by Lars for students! 📚
+      </div>
+    </div>
+    <!-- Bulk Upload Screen -->
+    <div id="upload-bulk-menu" class="screen">
+      <button class="btn btn-secondary back-btn" onclick="showScreen('main-menu')">Back to Menu</button>
+      <h2 class="centered-title">Bulk Upload Words</h2>
+      <div style="margin-bottom:1em;">
+        <input type="file" id="bulk-upload-file" accept=".txt,.csv">
+        <select id="bulk-from-lang"></select>
+        →
+        <select id="bulk-to-lang"></select>
+        <button class="btn btn-accent" id="bulk-upload-btn">Upload &amp; Preview</button>
+      </div>
+      <div id="bulk-upload-preview"></div>
+      <div id="bulk-edit-list" style="margin-top:1em;"></div>
+    </div>
+    <div id="quiz-screen" class="screen">
+      <button class="btn btn-secondary back-btn" onclick="showScreen('main-menu')">Back to Menu</button>
+      <h2 class="centered-title">Quiz</h2>
+      <div style="margin-bottom:1.2em; text-align:center;">
+        <span id="quiz-direction-label" style="font-weight:700;font-size:1.12em;letter-spacing:.02em;"></span>
+        <br>
+        <span id="question-direction" style="font-weight:600; color:var(--primary);"></span>
+        <span id="question-text" style="font-weight:500;"></span>
+      </div>
+      <div class="inputs-row" style="margin-bottom:0;">
+        <input type="text" id="answer-input" autocomplete="off" placeholder="Your answer">
+        <button class="btn" id="quiz-submit-btn" onclick="submitAnswer()">Submit</button>
+      </div>
+      <div id="feedback" class="feedback"></div>
+      <div style="margin-top:1.3em; text-align:center;">
+        <p>Score: <span id="current-score"></span> (<span id="score-percentage"></span>)</p>
+        <p>Question #: <span id="question-number"></span></p>
+      </div>
+    </div>
+    <div id="practice-hard-menu" class="screen">
+      <button class="btn btn-secondary back-btn" onclick="showScreen('main-menu')">Back to Menu</button>
+      <h2 class="centered-title">Practice Hard Words</h2>
+      <div style="text-align:center; margin-bottom:1.2em;">
+        <button class="btn btn-accent" onclick="practiceHardWords()">Start Practicing</button>
+      </div>
+      <div>
+        <h3>Recently Added Words</h3>
+        <div id="recent-list-hard"></div>
+        <h3>Hard Words List</h3>
+        <input type="text" id="search-hard" placeholder="Search...">
+        <div id="hard-words-list"></div>
+        <button id="clear-hard-btn" class="btn btn-secondary" onclick="clearHardWords()" style="display:none;">Clear Hard Words</button>
+      </div>
+    </div>
+    <div id="practice-custom-menu" class="screen">
+      <button class="btn btn-secondary back-btn" onclick="showScreen('main-menu')">Back to Menu</button>
+      <h2 class="centered-title">Practice Custom Words</h2>
+      <div style="text-align:center; margin-bottom:1.2em;">
+        <button class="btn btn-accent" onclick="practiceCustomWords()">Start Custom Practice</button>
+      </div>
+    </div>
+    <div id="add-word-menu" class="screen">
+      <button class="btn btn-secondary back-btn" onclick="showScreen('main-menu')">Back to Menu</button>
+      <h2 class="centered-title">Add Custom Word</h2>
+      <div class="inputs-row">
+        <input type="text" id="custom-from-word" placeholder="Word in source language">
+        <input type="text" id="custom-to-word" placeholder="Word in target language">
+        <button class="btn" onclick="addNewWord()">Add</button>
+      </div>
+      <div>
+        <h3>Recently Added Words</h3>
+        <input type="text" id="search-custom" placeholder="Search...">
+        <div id="recent-list"></div>
+      </div>
+    </div>
+    <div id="stats-screen" class="screen">
+      <button class="btn btn-secondary back-btn" onclick="showScreen('main-menu')">Back to Menu</button>
+      <h2 class="centered-title">Stats</h2>
+      <table class="stats-table">
+        <tr>
+          <th>Type</th>
+          <th>Correct</th>
+          <th>Total</th>
+          <th>Accuracy</th>
+        </tr>
+        <tr>
+          <td>Total</td>
+          <td id="correct-answers"></td>
+          <td id="total-questions"></td>
+          <td id="accuracy"></td>
+        </tr>
+      </table>
+    </div>
+    <div id="hard-words-modal" class="modal" tabindex="-1">
+      <div class="modal-content">
+        <h3>Add to Hard Words?</h3>
+        <p>This word will be added to your hard words list for extra practice. Continue?</p>
+        <button onclick="addToHardWords(true)" class="btn btn-accent">Add</button>
+        <button onclick="addToHardWords(false)" class="btn btn-secondary">Skip</button>
+      </div>
+    </div>
+  </div>
+  <script src="script.js"></script>
+</body>
+</html>
