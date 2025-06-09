@@ -753,6 +753,21 @@
     </div>
   </div>
 
+  <!-- Quiz Mode Selector Modal -->
+  <div id="quiz-mode-modal" class="modal">
+    <div class="modal-content glass-card">
+      <h2 class="step-title">Choose Quiz Mode</h2>
+      <div class="mode-options" style="display: flex; gap: 1.5em; justify-content: center; margin: 2em 0; flex-wrap: wrap;">
+        <button class="btn btn-accent mode-btn" data-mode="typing">4dd Typing</button>
+        <button class="btn btn-accent mode-btn" data-mode="multiple">522 Multiple Choice</button>
+        <button class="btn btn-accent mode-btn" data-mode="flashcard">4d6 Flashcard</button>
+        <button class="btn btn-accent mode-btn" data-mode="listening">50a Listening</button>
+      </div>
+      <button class="btn" id="close-mode-modal">Cancel</button>
+    </div>
+  </div>
+  <!-- End Quiz Mode Selector Modal -->
+
   <script>
     // Global variables
     let currentStep = 1;
@@ -864,4 +879,57 @@
             this.classList.remove('selected');
             selectedLanguages = selectedLanguages.filter(l => l !== lang);
           } else {
-            this.classList.add('selecte
+            this.classList.add('selected');
+            selectedLanguages.push(lang);
+          }
+        });
+      });
+      
+      nextBtn.disabled = selectedLanguages.length === 0;
+    }
+
+    function completeOnboarding() {
+      // Implementation of completeOnboarding function
+    }
+
+    function startQuiz() {
+      // Implementation of startQuiz function
+    }
+
+    function showMainMenu() {
+      // Implementation of showMainMenu function
+    }
+
+    function showAddWords() {
+      // Implementation of showAddWords function
+    }
+
+    function showBulkUpload() {
+      // Implementation of showBulkUpload function
+    }
+
+    function practiceHard() {
+      // Implementation of practiceHard function
+    }
+
+    function showStats() {
+      // Implementation of showStats function
+    }
+
+    function showSettings() {
+      // Implementation of showSettings function
+    }
+
+    function submitAnswer() {
+      // Implementation of submitAnswer function
+    }
+
+    function addCustomWord() {
+      // Implementation of addCustomWord function
+    }
+
+    // Rest of the existing JavaScript code
+    initApp();
+  </script>
+</body>
+</html>
