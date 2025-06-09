@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <title>Vocabulary Trainer</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Google Fonts -->
+  <!-- Google Fonts and Icons -->
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Fira+Mono:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <!-- MULTI-LAYERED ANIMATED BACKGROUND -->
+  <!-- Layered Animated Background -->
   <div class="bg-blobs">
     <div class="blob blob1"></div>
     <div class="blob blob2"></div>
@@ -20,94 +20,97 @@
       <circle class="sparkle" cx="200" cy="490" r="2.5"/>
       <circle class="sparkle" cx="420" cy="350" r="1.5"/>
       <circle class="sparkle" cx="60" cy="410" r="1.2"/>
-      <!-- Add more sparkles for density -->
+      <circle class="sparkle" cx="320" cy="170" r="1.3"/>
+      <circle class="sparkle" cx="120" cy="370" r="1.7"/>
+      <circle class="sparkle" cx="400" cy="90" r="2.1"/>
     </svg>
+    <div class="bg-gradient-overlay"></div>
   </div>
 
   <div class="container glassy-pop animate-in">
-    <!-- ONBOARDING STEPS -->
-    <div id="onboarding-screen" class="screen">
-      <form id="onboard-form" class="onboard-card glassy-card animate-in">
-        <div class="onboard-progress-bar"><div></div></div>
-        <h2 class="onboard-title">Welcome! <span class="emoji-bounce">🎒</span></h2>
-        <div class="onboard-step" id="onboard-step-lang">
-          <label class="onboard-label">Which language pair(s) do you want to learn?</label>
-          <div class="onboard-lang-choices animated-list">
-            <label><input type="checkbox" name="langs" value="fr-nl"> <span>🇫🇷 French ⇄ 🇳🇱 Dutch</span></label>
-            <label><input type="checkbox" name="langs" value="en-nl"> <span>🇬🇧 English ⇄ 🇳🇱 Dutch</span></label>
+    <!-- HEADER WITH FLOATING LOGO -->
+    <header class="main-header glassy-tile animate-float">
+      <div class="logo-area">
+        <span class="logo-icon emoji-bounce">📖</span>
+        <span class="logo-text">VOCABULARY TRAINER</span>
+      </div>
+      <div class="header-slogan">Learn. Play. Master. <span class="emoji-bounce">✨</span></div>
+    </header>
+
+    <!-- Main dashboard home card -->
+    <section id="home-section" class="screen home-section active">
+      <div class="home-flex">
+        <nav class="menu-glass animate-in-delay">
+          <button class="btn menu-btn btn-accent animate-float" onclick="showScreen('quiz-screen')">
+            <span class="icon">🎲</span> Start Quiz
+          </button>
+          <button class="btn menu-btn btn-secondary animate-float-delay" onclick="showScreen('add-word-menu')">
+            <span class="icon">➕</span> Add New Word
+          </button>
+          <button class="btn menu-btn animate-float-delay2" onclick="showScreen('upload-bulk-menu')">
+            <span class="icon">📤</span> Bulk Upload
+          </button>
+          <button class="btn menu-btn animate-float-delay3" onclick="showScreen('practice-hard-menu')">
+            <span class="icon">🔥</span> Practice Hard Words
+          </button>
+          <button class="btn menu-btn animate-float-delay4" onclick="showScreen('practice-custom-menu')">
+            <span class="icon">📝</span> Practice Custom Words
+          </button>
+          <button class="btn menu-btn btn-secondary animate-float" onclick="showStatsScreen()">
+            <span class="icon">📊</span> View Stats
+          </button>
+          <button class="btn menu-btn btn-secondary animate-float" onclick="window.logout()">
+            <span class="icon">🚪</span> Logout
+          </button>
+        </nav>
+        <aside class="dash-side">
+          <div class="stat-tile glassy-tile animate-fadein">
+            <div class="stat-title">Words in vocabulary</div>
+            <div class="stat-value" id="vocab-count">0</div>
           </div>
-          <button type="button" class="btn btn-accent animate-bounce" id="onboard-next-motivation">Next →</button>
-        </div>
-        <div class="onboard-step" id="onboard-step-motivation" style="display:none;">
-          <label class="onboard-label">Why do you want to learn?</label>
-          <div class="animated-list">
-            <select name="motivation" id="motivation" class="glassy-select">
-              <option value="school">📚 For school</option>
-              <option value="travel">✈️ For travel</option>
-              <option value="other">🌱 Other</option>
-            </select>
+          <div class="stat-tile glassy-tile animate-fadein-delay">
+            <div class="stat-title">Hard words</div>
+            <div class="stat-value" id="hard-count">0</div>
           </div>
-          <button type="button" class="btn btn-accent animate-bounce" id="onboard-next-level">Next →</button>
-        </div>
-        <div class="onboard-step" id="onboard-step-level" style="display:none;">
-          <div id="levels"></div>
-          <button type="submit" class="btn btn-accent animate-pulse">🚀 Start!</button>
-        </div>
-      </form>
-    </div>
+          <div class="stat-tile glassy-tile streak-tile animate-fadein-delay2" id="streak-bar"></div>
+        </aside>
+      </div>
+      <footer class="footer glassy-tile animate-in">
+        Made by Lars for students! <span class="emoji-bounce">📚</span>
+        <span class="footer-right">
+          <a href="https://github.com/LD-beepbeep/French-Words-2.0" target="_blank" class="footer-link">GitHub</a>
+        </span>
+      </footer>
+    </section>
+
+    <!-- LOGIN SCREEN -->
+    <section id="login-screen" class="screen">
+      <div class="login-card glassy-tile animate-in">
+        <div class="login-logo"><span class="emoji-bounce">🔒</span></div>
+        <h2 id="login-header">VOC Trainer</h2>
+        <div id="login-sub">Please log in!</div>
+        <form onsubmit="window.tryLogin();return false;">
+          <label for="login-username">Username</label>
+          <input type="text" id="login-username" autocomplete="username" placeholder="Enter username">
+          <label for="login-password">Password</label>
+          <input type="password" id="login-password" autocomplete="current-password" placeholder="Enter password">
+          <button class="btn btn-accent" type="submit">Login</button>
+          <div id="login-error"></div>
+        </form>
+      </div>
+    </section>
 
     <!-- LANGUAGE SELECTOR -->
-    <div id="language-selector" style="display:none">
+    <section id="language-selector" style="display:none">
       <label for="lang-choice">Quiz Language: </label>
       <select id="lang-choice" class="glassy-select"></select>
       <button class="btn btn-small animate-bounce" id="add-lang-btn" title="Add language pair">＋</button>
       <button class="btn btn-small" id="remove-lang-btn" title="Remove current language pair">🗑</button>
-    </div>
-
-    <!-- MAIN DASHBOARD -->
-    <div id="main-menu" class="screen">
-      <h1 class="centered-title animate-in-delay glassy-pop">Vocabulary Trainer</h1>
-      <div class="menu-list">
-        <button class="btn btn-secondary menu-btn animate-float" onclick="showScreen('add-word-menu')"><span>➕ Add New Word</span></button>
-        <button class="btn btn-accent menu-btn animate-float-delay" onclick="showScreen('upload-bulk-menu')"><span>📤 Bulk Upload</span></button>
-        <button class="btn menu-btn animate-float-delay2" onclick="startQuiz()"><span>🎲 Start Quiz</span></button>
-        <button class="btn menu-btn animate-float-delay3" onclick="showScreen('practice-hard-menu')"><span>🔥 Practice Hard Words</span></button>
-        <button class="btn menu-btn animate-float-delay4" onclick="showScreen('practice-custom-menu')"><span>📝 Practice Custom Words</span></button>
-        <button class="btn btn-secondary menu-btn animate-float" onclick="showStatsScreen()"><span>📊 View Stats</span></button>
-        <button class="btn btn-secondary menu-btn animate-float" onclick="window.logout()"><span>🚪 Logout</span></button>
-      </div>
-      <div class="stats-blurb">
-        <div class="stat-tile glassy-tile animate-fadein">
-          <span>Words in vocabulary</span><strong id="vocab-count"></strong>
-        </div>
-        <div class="stat-tile glassy-tile animate-fadein-delay">
-          <span>Hard words</span><strong id="hard-count"></strong>
-        </div>
-        <div class="stat-tile glassy-tile streak-tile animate-fadein-delay2" id="streak-bar"></div>
-      </div>
-      <div class="footer">
-        Made by Lars for students! <span class="emoji-bounce">📚</span>
-      </div>
-    </div>
-
-    <!-- BULK UPLOAD SCREEN -->
-    <div id="upload-bulk-menu" class="screen">
-      <button class="btn btn-secondary back-btn animate-bounce" onclick="showScreen('main-menu')">← Back</button>
-      <h2 class="centered-title">Bulk Upload Words</h2>
-      <div class="bulk-form">
-        <input type="file" id="bulk-upload-file" accept=".txt,.csv">
-        <select id="bulk-from-lang" class="glassy-select"></select>
-        <span class="arrow">→</span>
-        <select id="bulk-to-lang" class="glassy-select"></select>
-        <button class="btn btn-accent animate-bounce" id="bulk-upload-btn">Upload &amp; Preview</button>
-      </div>
-      <div id="bulk-upload-preview"></div>
-      <div id="bulk-edit-list" style="margin-top:1em;"></div>
-    </div>
+    </section>
 
     <!-- QUIZ SCREEN -->
-    <div id="quiz-screen" class="screen">
-      <button class="btn btn-secondary back-btn animate-bounce" onclick="showScreen('main-menu')">← Back</button>
+    <section id="quiz-screen" class="screen">
+      <button class="btn btn-secondary back-btn animate-bounce" onclick="showScreen('home-section')">← Back</button>
       <h2 class="centered-title">Quiz</h2>
       <div class="quiz-anim-card glassy-tile animate-float">
         <span id="quiz-direction-label" class="quiz-direction"></span>
@@ -124,11 +127,26 @@
         <p>Score: <span id="current-score"></span> (<span id="score-percentage"></span>)</p>
         <p>Question #: <span id="question-number"></span></p>
       </div>
-    </div>
+    </section>
+
+    <!-- BULK UPLOAD SCREEN -->
+    <section id="upload-bulk-menu" class="screen">
+      <button class="btn btn-secondary back-btn animate-bounce" onclick="showScreen('home-section')">← Back</button>
+      <h2 class="centered-title">Bulk Upload Words</h2>
+      <div class="bulk-form">
+        <input type="file" id="bulk-upload-file" accept=".txt,.csv">
+        <select id="bulk-from-lang" class="glassy-select"></select>
+        <span class="arrow">→</span>
+        <select id="bulk-to-lang" class="glassy-select"></select>
+        <button class="btn btn-accent animate-bounce" id="bulk-upload-btn">Upload &amp; Preview</button>
+      </div>
+      <div id="bulk-upload-preview"></div>
+      <div id="bulk-edit-list" style="margin-top:1em;"></div>
+    </section>
 
     <!-- PRACTICE HARD WORDS SCREEN -->
-    <div id="practice-hard-menu" class="screen">
-      <button class="btn btn-secondary back-btn animate-bounce" onclick="showScreen('main-menu')">← Back</button>
+    <section id="practice-hard-menu" class="screen">
+      <button class="btn btn-secondary back-btn animate-bounce" onclick="showScreen('home-section')">← Back</button>
       <h2 class="centered-title">Practice Hard Words</h2>
       <div style="text-align:center; margin-bottom:1.2em;">
         <button class="btn btn-accent animate-pulse" onclick="practiceHardWords()">Start Practicing</button>
@@ -141,20 +159,20 @@
         <div id="hard-words-list"></div>
         <button id="clear-hard-btn" class="btn btn-secondary" onclick="clearHardWords()" style="display:none;">Clear Hard Words</button>
       </div>
-    </div>
+    </section>
 
     <!-- PRACTICE CUSTOM WORDS SCREEN -->
-    <div id="practice-custom-menu" class="screen">
-      <button class="btn btn-secondary back-btn animate-bounce" onclick="showScreen('main-menu')">← Back</button>
+    <section id="practice-custom-menu" class="screen">
+      <button class="btn btn-secondary back-btn animate-bounce" onclick="showScreen('home-section')">← Back</button>
       <h2 class="centered-title">Practice Custom Words</h2>
       <div style="text-align:center; margin-bottom:1.2em;">
         <button class="btn btn-accent animate-pulse" onclick="practiceCustomWords()">Start Custom Practice</button>
       </div>
-    </div>
+    </section>
 
     <!-- ADD WORD MENU -->
-    <div id="add-word-menu" class="screen">
-      <button class="btn btn-secondary back-btn animate-bounce" onclick="showScreen('main-menu')">← Back</button>
+    <section id="add-word-menu" class="screen">
+      <button class="btn btn-secondary back-btn animate-bounce" onclick="showScreen('home-section')">← Back</button>
       <h2 class="centered-title">Add Custom Word</h2>
       <div class="inputs-row">
         <input type="text" id="custom-from-word" placeholder="Word in source language">
@@ -166,11 +184,11 @@
         <input type="text" id="search-custom" placeholder="Search...">
         <div id="recent-list"></div>
       </div>
-    </div>
+    </section>
 
     <!-- STATS SCREEN -->
-    <div id="stats-screen" class="screen">
-      <button class="btn btn-secondary back-btn animate-bounce" onclick="showScreen('main-menu')">← Back</button>
+    <section id="stats-screen" class="screen">
+      <button class="btn btn-secondary back-btn animate-bounce" onclick="showScreen('home-section')">← Back</button>
       <h2 class="centered-title">Stats</h2>
       <table class="stats-table">
         <tr>
@@ -186,7 +204,7 @@
           <td id="accuracy"></td>
         </tr>
       </table>
-    </div>
+    </section>
 
     <!-- MODAL -->
     <div id="hard-words-modal" class="modal" tabindex="-1">
@@ -198,6 +216,7 @@
       </div>
     </div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
