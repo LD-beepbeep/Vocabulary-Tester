@@ -270,3 +270,27 @@ input[type="text"]:focus, input[type="password"]:focus, select:focus {
   #onboarding-screen { min-width: 0; max-width: 99vw; }
   .onboard-card { max-width: 97vw; }
 }
+
+/* Quiz Mode Selector Modal */
+#quiz-mode-modal.modal { display: flex; align-items: center; justify-content: center; }
+#quiz-mode-modal .modal-content { min-width: 320px; max-width: 95vw; text-align: center; }
+.mode-options .mode-btn {
+  min-width: 120px;
+  font-size: 1.1em;
+  margin-bottom: 0.7em;
+  box-shadow: 0 2px 12px #00d4aa22;
+  transition: transform 0.13s, box-shadow 0.13s;
+}
+.mode-options .mode-btn:hover, .mode-options .mode-btn:focus {
+  background: linear-gradient(135deg, var(--primary), var(--accent));
+  color: #fff;
+  transform: scale(1.07);
+  box-shadow: 0 4px 24px #00d4aa44;
+}
+#close-mode-modal {
+  margin-top: 1.2em;
+}
+@media (max-width: 600px) {
+  #quiz-mode-modal .modal-content { padding: 1.2em 0.5em; min-width: 0; }
+  .mode-options { flex-direction: column; gap: 0.7em; }
+}
