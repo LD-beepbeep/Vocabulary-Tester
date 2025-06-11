@@ -1,215 +1,3489 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>VOCAB TECH TRAINER</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VOC Trainer</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-color: #667eea;
+            --secondary-color: #764ba2;
+            --accent-color: #4ecdc4;
+            --success-color: #2ecc71;
+            --error-color: #e74c3c;
+            --warning-color: #f39c12;
+            --text-color: #333;
+            --bg-color: #f8f9fa;
+            --card-bg: rgba(255, 255, 255, 0.9);
+            --border-color: rgba(0, 0, 0, 0.1);
+        }
+
+        [data-theme="dark"] {
+            --text-color: #e0e0e0;
+            --bg-color: #1a1a1a;
+            --card-bg: rgba(30, 30, 30, 0.9);
+            --border-color: rgba(255, 255, 255, 0.1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            min-height: 100vh;
+            color: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            border: 1px solid var(--border-color);
+        }
+
+        .login-screen {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .login-card {
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+            text-align: left;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 1rem;
+            background: var(--card-bg);
+            color: var(--text-color);
+            transition: border-color 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, var(--accent-color), var(--primary-color));
+            color: white;
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, var(--error-color), #c0392b);
+            color: white;
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, var(--success-color), #27ae60);
+            color: white;
+        }
+
+        .btn-warning {
+            background: linear-gradient(45deg, var(--warning-color), #e67e22);
+            color: white;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .main-menu {
+            display: none;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stats-bar {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            flex: 1;
+            min-width: 120px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .menu-item {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .menu-item:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+        }
+
+        .menu-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .screen {
+            display: none;
+        }
+
+        .screen.active {
+            display: block;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            padding: 2rem;
+            border-radius: 15px;
+            max-width: 500px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .quiz-question {
+            text-align: center;
+            padding: 2rem;
+            background: var(--card-bg);
+            border-radius: 15px;
+            margin-bottom: 1rem;
+        }
+
+        .question-word {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .option-btn {
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 2px solid var(--border-color);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .option-btn:hover {
+            border-color: var(--accent-color);
+        }
+
+        .option-btn.correct {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .option-btn.incorrect {
+            background: var(--error-color);
+            color: white;
+        }
+
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 60px;
+            height: 34px;
+        }
+
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--accent-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .word-list {
+            max-height: 300px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+        }
+
+        .word-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .word-item:last-child {
+            border-bottom: none;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: auto;
+            padding: 1rem;
+            opacity: 0.7;
+        }
+
+        .back-btn {
+            margin-bottom: 1rem;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background: var(--border-color);
+            border-radius: 5px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-color), var(--primary-color));
+            transition: width 0.3s ease;
+        }
+
+        .background-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .bg-option {
+            position: relative;
+            aspect-ratio: 16/9;
+            border-radius: 8px;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            overflow: hidden;
+        }
+
+        .bg-option:hover:not(.locked), .bg-option.active {
+            border-color: var(--accent-color);
+            transform: scale(1.05);
+        }
+
+        .bg-option.locked {
+            cursor: not-allowed;
+            filter: grayscale(1) brightness(0.7);
+        }
+
+        .bg-option.locked:hover {
+            animation: shake 0.5s;
+        }
+
+        .bg-label {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 0.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px); }
+            75% { transform: translateX(5px); }
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .achievement {
+            background: var(--card-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid var(--border-color);
+            transition: all 0.3s ease;
+            opacity: 0.5;
+        }
+
+        .achievement.unlocked {
+            opacity: 1;
+            border-color: var(--accent-color);
+            background: linear-gradient(45deg, var(--success-color), #27ae60);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        .achievement.unlocked:hover {
+            transform: translateY(-8px);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-bar {
+                flex-direction: column;
+            }
+
+            .header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        .onboarding-step {
+            display: none;
+        }
+        
+        .onboarding-step.active {
+            display: block;
+        }
+        
+        .achievement-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: slideIn 0.3s ease-out;
+            z-index: 1000;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .god-mode {
+            animation: godMode 2s infinite;
+        }
+        
+        @keyframes godMode {
+            0% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--accent-color); }
+            50% { text-shadow: 0 0 10px #fff, 0 0 20px #fff, 0 0 30px var(--accent-color); }
+            100% { text-shadow: 0 0 5px #fff, 0 0 10px #fff, 0 0 15px var(--accent-color); }
+        }
+
+        .help-section {
+            max-height: 70vh;
+            overflow-y: auto;
+            padding-right: 1rem;
+        }
+
+        .shortcuts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .shortcut-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--card-bg);
+            border-radius: 5px;
+            border: 1px solid var(--border-color);
+        }
+
+        kbd {
+            background: var(--primary-color);
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            min-width: 1.5rem;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .help-list {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+        }
+
+        .help-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .help-list li:last-child {
+            border-bottom: none;
+        }
+
+        h3 {
+            margin: 1.5rem 0 1rem;
+            color: var(--accent-color);
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100%);
+            background: var(--card-bg);
+            color: var(--text-color);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .notification.show {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .streak-display {
+            background: var(--card-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0 1rem;
+            animation: pulse 2s infinite;
+        }
+        
+        .streak-count {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        
+        .streak-count small {
+            opacity: 0.7;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @import url('https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css');
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            --secondary-gradient: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            --success-gradient: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --glass-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+        }
+
+        .glass-effect {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .login-card {
+            max-width: 400px;
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .logo {
+            font-size: 3rem;
+            font-weight: bold;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-subtitle {
+            color: var(--text-color);
+            opacity: 0.8;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .input-icon-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+        }
+
+        .input-icon-wrapper i {
+            position: absolute;
+            left: 1rem;
+            color: var(--text-color);
+            opacity: 0.7;
+        }
+
+        .input-icon-wrapper input {
+            padding-left: 2.5rem;
+        }
+
+        .glass-btn {
+            background: var(--glass-bg);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .glass-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .login-footer {
+            margin-top: 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            opacity: 0.7;
+        }
+
+        .theme-toggle {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            max-width: 800px;
+            width: 90%;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .admin-badge {
+            background: var(--glass-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .admin-badge.god-mode {
+            background: var(--primary-gradient);
+            color: white;
+            animation: glow 2s infinite;
+        }
+
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-stat-item {
+            background: var(--glass-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .stat-label {
+            opacity: 0.7;
+        }
+
+        .admin-sections {
+            display: grid;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .admin-section h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .status-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .status-item {
+            background: var(--glass-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .admin-footer {
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px var(--primary-color); }
+            50% { box-shadow: 0 0 20px var(--primary-color); }
+        }
+
+        .language-manager {
+            display: grid;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .language-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .language-card {
+            background: var(--glass-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+        }
+
+        .language-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--glass-shadow);
+        }
+
+        .language-card.selected {
+            border-color: var(--accent-color);
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .language-flag {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .language-name {
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .language-code {
+            font-size: 0.8rem;
+            opacity: 0.7;
+        }
+
+        .add-language-form {
+            background: var(--glass-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .language-selection {
+            display: grid;
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+
+        .from-language, .to-language {
+            background: var(--glass-bg);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .logo-container::after {
+            content: '';
+            position: absolute;
+            bottom: -1rem;
+            left: 25%;
+            width: 50%;
+            height: 2px;
+            background: var(--primary-gradient);
+        }
+
+        .login-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem;
+            border: none;
+            background: var(--glass-bg);
+            color: var(--text-color);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .login-form {
+            display: none;
+        }
+
+        .login-form.active {
+            display: block;
+        }
+
+        .glass-input {
+            background: var(--glass-bg);
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .glass-input input {
+            background: transparent;
+            border: none;
+            color: var(--text-color);
+        }
+
+        .glass-input input:focus {
+            outline: none;
+        }
+
+        .admin-info {
+            background: var(--glass-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--glass-border);
+        }
+
+        .admin-info i {
+            font-size: 2rem;
+            color: var(--warning-color);
+            margin-bottom: 0.5rem;
+        }
+
+        .admin-info code {
+            display: block;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 0.3rem;
+            margin: 0.3rem 0;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+
+        .add-word-header {
+            margin-bottom: 2rem;
+        }
+
+        .add-type-toggle {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .language-selection-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .language-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .language-chip {
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+        }
+
+        .language-chip.selected {
+            background: var(--primary-gradient);
+            color: white;
+        }
+
+        .translations-container {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .translation-pair {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--glass-bg);
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        .translation-pair .remove-btn {
+            position: absolute;
+            top: -0.5rem;
+            right: -0.5rem;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--error-color);
+            color: white;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+        }
+
+        .add-form {
+            display: none;
+            margin-bottom: 1rem;
+        }
+
+        .add-form.active {
+            display: block;
+        }
+
+        .entries-tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .entries-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .entry-item {
+            padding: 1rem;
+            background: var(--glass-bg);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border: 1px solid var(--glass-border);
+        }
+
+        .entry-item .entry-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .entry-item .entry-content {
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .entry-item .entry-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .entry-item .entry-tag {
+            font-size: 0.8rem;
+            padding: 0.2rem 0.5rem;
+            background: var(--glass-bg);
+            border-radius: 4px;
+            opacity: 0.7;
+        }
+
+        .achievements-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--glass-border);
+        }
+
+        .achievement-stats {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .achievement-stat {
+            text-align: center;
+            background: var(--glass-bg);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .achievement-stat span {
+            font-size: 1.5rem;
+            font-weight: bold;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .achievement-stat small {
+            display: block;
+            opacity: 0.7;
+        }
+
+        .achievements-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .achievement {
+            display: flex;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--glass-bg);
+            border-radius: 10px;
+            border: 1px solid var(--glass-border);
+            transition: all 0.3s ease;
+            opacity: 0.7;
+        }
+
+        .achievement.unlocked {
+            opacity: 1;
+            border-color: var(--accent-color);
+            background: var(--primary-gradient);
+            transform: translateY(-2px);
+        }
+
+        .achievement.unlocked .achievement-info {
+            color: white;
+        }
+
+        .achievement-icon {
+            font-size: 2rem;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--glass-bg);
+            border-radius: 8px;
+            border: 1px solid var(--glass-border);
+        }
+
+        .achievement-info {
+            flex: 1;
+        }
+
+        .achievement-info h3 {
+            margin: 0 0 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .achievement-info p {
+            margin: 0 0 1rem;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+
+        .achievement-progress {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .achievement-progress .progress-bar {
+            flex: 1;
+            height: 6px;
+            background: var(--glass-bg);
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .achievement-progress .progress-fill {
+            height: 100%;
+            background: var(--accent-color);
+            transition: width 0.3s ease;
+        }
+
+        .achievement-progress .progress-text {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            min-width: 40px;
+            text-align: right;
+        }
+
+        .achievement.unlocked .achievement-progress .progress-fill {
+            background: white;
+        }
+    </style>
 </head>
-<body class="tech-bg">
-  <!-- Animated Techy Background Layers -->
-  <div class="bg-blob-layer"></div>
-  <div class="bg-sparkles"></div>
-  <div class="bg-blur"></div>
+<body>
+    <div class="container">
+        <!-- Login Screen -->
+        <div id="loginScreen" class="screen active">
+            <div class="login-screen">
+                <div class="card login-card glass-effect">
+                    <div class="logo-container">
+                        <div class="logo">VOC Trainer</div>
+                        <div class="logo-subtitle">Your Universal Learning Hub ✨</div>
+                    </div>
+                    
+                    <div class="login-tabs">
+                        <button class="tab-btn active" onclick="switchLoginTab('user')">User Login</button>
+                        <button class="tab-btn" onclick="switchLoginTab('admin')">Admin Access</button>
+                    </div>
+                    
+                    <div id="userLoginForm" class="login-form active">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <div class="input-icon-wrapper glass-input">
+                                <i class="fas fa-user"></i>
+                                <input type="text" id="username" class="form-control" placeholder="Enter username">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <div class="input-icon-wrapper glass-input">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="password" class="form-control" placeholder="Enter password">
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-primary glass-btn" onclick="login('user')" style="width: 100%;">
+                            <i class="fas fa-sign-in-alt"></i> Login
+                        </button>
+                    </div>
 
-  <!-- HERO SECTION -->
-  <section class="hero-section">
-    <div class="hero-content glassy-card animate-in">
-      <h1 class="hero-title neon-glow">VOCAB TECH TRAINER</h1>
-      <p class="hero-sub">Level up your language skills with a playful, techy, and beautiful experience.<br><span class="emoji-bounce">🚀</span></p>
-      <button class="btn btn-accent btn-hero animate-bounce" onclick="showScreen('main-menu')">Start Learning</button>
-      <div class="hero-icons">
-        <span class="icon-glass"><svg width="32" height="32" fill="none"><circle cx="16" cy="16" r="14" stroke="#38cfa7" stroke-width="3"/><circle cx="16" cy="16" r="7" fill="#4f8cff"/></svg></span>
-        <span class="icon-glass"><svg width="32" height="32" fill="none"><rect x="6" y="6" width="20" height="20" rx="6" stroke="#4f8cff" stroke-width="3"/><rect x="13" y="13" width="6" height="6" fill="#38cfa7"/></svg></span>
-        <span class="icon-glass"><svg width="32" height="32" fill="none"><polygon points="16,4 28,28 4,28" stroke="#ff5f5f" stroke-width="3" fill="#fff0"/><circle cx="16" cy="20" r="3" fill="#ff5f5f"/></svg></span>
-      </div>
-    </div>
-  </section>
+                    <div id="adminLoginForm" class="login-form">
+                        <div class="admin-info">
+                            <i class="fas fa-crown"></i>
+                            <p>Admin credentials:</p>
+                            <code>Username: admin</code>
+                            <code>Password: admin123</code>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="adminUsername">Admin Username</label>
+                            <div class="input-icon-wrapper glass-input">
+                                <i class="fas fa-user-shield"></i>
+                                <input type="text" id="adminUsername" class="form-control" placeholder="Enter admin username">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="adminPassword">Admin Password</label>
+                            <div class="input-icon-wrapper glass-input">
+                                <i class="fas fa-key"></i>
+                                <input type="password" id="adminPassword" class="form-control" placeholder="Enter admin password">
+                            </div>
+                        </div>
+                        
+                        <button class="btn btn-warning glass-btn" onclick="login('admin')" style="width: 100%;">
+                            <i class="fas fa-crown"></i> Admin Login
+                        </button>
+                    </div>
+                    
+                    <div class="login-footer">
+                        <div class="theme-toggle">
+                            <i class="fas fa-moon"></i>
+                            <label class="toggle-switch">
+                                <input type="checkbox" id="loginDarkMode" onchange="toggleDarkMode()">
+                                <span class="slider"></span>
+                            </label>
+                            <i class="fas fa-sun"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-  <div class="container glassy-card animate-float-delay2">
-    <!-- LOGIN SCREEN -->
-    <div id="login-screen" class="screen active">
-      <div id="login-header" class="neon-glow">VOC Trainer</div>
-      <div id="login-sub">Please log in!</div>
-      <label for="login-username">Username</label>
-      <input type="text" id="login-username" autocomplete="username" placeholder="Enter username">
-      <label for="login-password">Password</label>
-      <input type="password" id="login-password" autocomplete="current-password" placeholder="Enter password">
-      <button class="btn btn-accent" onclick="window.tryLogin()">Login</button>
-      <div id="login-error"></div>
+        <!-- Main Menu -->
+        <div id="mainMenu" class="screen">
+            <div class="header">
+                <h1>Main Menu</h1>
+                <div style="display: flex; align-items: center; gap: 1rem;">
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="darkModeToggle" onchange="toggleDarkMode()">
+                        <span class="slider"></span>
+                    </label>
+                    <span>🌓</span>
+                    <label class="toggle-switch">
+                        <input type="checkbox" id="soundToggle" onchange="toggleSound()" checked>
+                        <span class="slider"></span>
+                    </label>
+                    <span>🔊</span>
+                    <button class="btn btn-secondary" onclick="logout()">🚪 Logout</button>
+                </div>
+            </div>
+
+            <div class="stats-bar">
+                <div class="stat-item">
+                    <div class="stat-value" id="totalWordsCount">0</div>
+                    <div>Words in vocabulary</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="hardWordsCount">0</div>
+                    <div>Hard words</div>
+                </div>
+            </div>
+
+            <div class="menu-grid">
+                <div class="menu-item" onclick="showQuizModeModal()">
+                    <div class="menu-icon">🎯</div>
+                    <div>Start Quiz</div>
+                </div>
+                <div class="menu-item" onclick="showScreen('addWordScreen')">
+                    <div class="menu-icon">➕</div>
+                    <div>Add New Word</div>
+                </div>
+                <div class="menu-item" onclick="showScreen('bulkUploadScreen')">
+                    <div class="menu-icon">📤</div>
+                    <div>Bulk Upload</div>
+                </div>
+                <div class="menu-item" onclick="showScreen('practiceHardScreen')">
+                    <div class="menu-icon">🔥</div>
+                    <div>Practice Hard Words</div>
+                </div>
+                <div class="menu-item" onclick="showScreen('practiceCustomScreen')">
+                    <div class="menu-icon">🧩</div>
+                    <div>Practice Custom Words</div>
+                </div>
+                <div class="menu-item" onclick="showScreen('statsScreen')">
+                    <div class="menu-icon">📊</div>
+                    <div>View Stats</div>
+                </div>
+                <div class="menu-item" onclick="showModal('backgroundModal')">
+                    <div class="menu-icon">🌈</div>
+                    <div>Background Gallery</div>
+                </div>
+                <div class="menu-item" onclick="showModal('achievementsModal')">
+                    <div class="menu-icon">🏆</div>
+                    <div>Achievements</div>
+                </div>
+                <div class="menu-item" onclick="showModal('privacyModal')">
+                    <div class="menu-icon">🔒</div>
+                    <div>Privacy Policy</div>
+                </div>
+                <div class="menu-item" onclick="showModal('helpModal')">
+                    <div class="menu-icon">⌨️</div>
+                    <div>Shortcuts & Help</div>
+                </div>
+                <div class="menu-item glass-effect" onclick="showLanguageSelection()">
+                    <div class="menu-icon"><i class="fas fa-language"></i></div>
+                    <div>Change Languages</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                ✨ Made by Lars for students! 📚
+            </div>
+        </div>
+
+        <!-- Quiz Screen -->
+        <div id="quizScreen" class="screen">
+            <button class="btn btn-secondary back-btn" onclick="showScreen('mainMenu')">Back to Menu</button>
+            
+            <div class="card">
+                <h2>Quiz</h2>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="quizProgress" style="width: 0%;"></div>
+                </div>
+                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem;">
+                    <span>Score: <span id="quizScore">0</span></span>
+                    <span>Question #: <span id="questionNumber">1</span></span>
+                </div>
+            </div>
+
+            <div class="quiz-question" id="quizQuestion">
+                <div class="question-word" id="currentQuizWord">Loading...</div>
+                <div id="quizContent"></div>
+            </div>
+
+            <div style="text-align: center;">
+                <button class="btn btn-primary" id="submitBtn" onclick="submitAnswer()">Submit</button>
+            </div>
+        </div>
+
+        <!-- Add Word Screen -->
+        <div id="addWordScreen" class="screen">
+            <button class="btn btn-secondary back-btn" onclick="showScreen('mainMenu')">Back to Menu</button>
+            
+            <div class="card glass-effect">
+                <div class="add-word-header">
+                    <h2>Add New Entry</h2>
+                    <div class="add-type-toggle">
+                        <button class="tab-btn active" onclick="switchAddType('word')">Word Translation</button>
+                        <button class="tab-btn" onclick="switchAddType('definition')">Definition</button>
+                    </div>
+                </div>
+
+                <!-- Word Translation Form -->
+                <div id="wordTranslationForm" class="add-form active">
+                    <div class="language-selection-grid">
+                        <div class="form-group">
+                            <label>Source Language</label>
+                            <div class="language-chips" id="sourceLanguageChips">
+                                <!-- Will be populated dynamically -->
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Target Language</label>
+                            <div class="language-chips" id="targetLanguageChips">
+                                <!-- Will be populated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="translations-container" id="translationsContainer">
+                        <div class="translation-pair">
+                            <div class="form-group">
+                                <label>Original Word</label>
+                                <input type="text" class="form-control glass-input" placeholder="e.g., Bonjour">
+                            </div>
+                            <div class="form-group">
+                                <label>Translation</label>
+                                <input type="text" class="form-control glass-input" placeholder="e.g., Hello">
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-secondary" onclick="addTranslationPair()">
+                        <i class="fas fa-plus"></i> Add Another Translation
+                    </button>
+                </div>
+
+                <!-- Definition Form -->
+                <div id="definitionForm" class="add-form">
+                    <div class="form-group">
+                        <label>Subject/Category</label>
+                        <select class="form-control glass-input" id="definitionCategory">
+                            <option value="general">General Knowledge</option>
+                            <option value="science">Science</option>
+                            <option value="math">Mathematics</option>
+                            <option value="history">History</option>
+                            <option value="geography">Geography</option>
+                            <option value="custom">Custom Category</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" id="customCategoryGroup" style="display: none;">
+                        <label>Custom Category Name</label>
+                        <input type="text" class="form-control glass-input" id="customCategory" placeholder="Enter category name">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Term</label>
+                        <input type="text" class="form-control glass-input" id="definitionTerm" placeholder="Enter the term to define">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Definition</label>
+                        <textarea class="form-control glass-input" id="definitionText" rows="3" placeholder="Enter the definition"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Tags (optional)</label>
+                        <input type="text" class="form-control glass-input" id="definitionTags" placeholder="Enter tags separated by commas">
+                    </div>
+                </div>
+
+                <button class="btn btn-success" onclick="addNewEntry()">Add Entry</button>
+            </div>
+
+            <div class="card glass-effect">
+                <h3>Recent Entries</h3>
+                <div class="entries-tabs">
+                    <button class="tab-btn active" onclick="switchEntriesView('words')">Words</button>
+                    <button class="tab-btn" onclick="switchEntriesView('definitions')">Definitions</button>
+                </div>
+                <div class="entries-list" id="recentEntries"></div>
+            </div>
+        </div>
+
+        <!-- Bulk Upload Screen -->
+        <div id="bulkUploadScreen" class="screen">
+            <button class="btn btn-secondary back-btn" onclick="showScreen('mainMenu')">Back to Menu</button>
+            
+            <div class="card">
+                <h2>Bulk Upload Words</h2>
+                
+                <div class="form-group">
+                    <label>Upload Format</label>
+                    <select class="form-control">
+                        <option>French → Dutch → English</option>
+                        <option>English → French → Dutch</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>CSV File</label>
+                    <input type="file" class="form-control" accept=".csv" onchange="handleFileUpload(event)">
+                </div>
+                
+                <button class="btn btn-primary">Upload & Preview</button>
+            </div>
+        </div>
+
+        <!-- Practice Hard Words Screen -->
+        <div id="practiceHardScreen" class="screen">
+            <button class="btn btn-secondary back-btn" onclick="showScreen('mainMenu')">Back to Menu</button>
+            
+            <div class="card">
+                <h2>Practice Hard Words</h2>
+                <p>Focus on the words you find most challenging.</p>
+                <button class="btn btn-primary" onclick="startHardWordsPractice()">Start Practicing</button>
+            </div>
+
+            <div class="card">
+                <h3>Hard Words List</h3>
+                <div class="word-list" id="hardWordsList"></div>
+            </div>
+        </div>
+
+        <!-- Practice Custom Words Screen -->
+        <div id="practiceCustomScreen" class="screen">
+            <button class="btn btn-secondary back-btn" onclick="showScreen('mainMenu')">Back to Menu</button>
+            
+            <div class="card">
+                <h2>Practice Custom Words</h2>
+                <p>Practice words you've added yourself.</p>
+                <button class="btn btn-primary" onclick="startCustomPractice()">Start Custom Practice</button>
+            </div>
+        </div>
+
+        <!-- Stats Screen -->
+        <div id="statsScreen" class="screen">
+            <button class="btn btn-secondary back-btn" onclick="showScreen('mainMenu')">Back to Menu</button>
+            
+            <div class="card">
+                <h2>Stats</h2>
+                <table style="width: 100%; border-collapse: collapse;">
+                    <thead>
+                        <tr style="background: var(--card-bg);">
+                            <th style="padding: 1rem; border: 1px solid var(--border-color);">Type</th>
+                            <th style="padding: 1rem; border: 1px solid var(--border-color);">Correct</th>
+                            <th style="padding: 1rem; border: 1px solid var(--border-color);">Total</th>
+                            <th style="padding: 1rem; border: 1px solid var(--border-color);">Accuracy</th>
+                        </tr>
+                    </thead>
+                    <tbody id="statsTableBody">
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color);">Typing</td>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color);">0</td>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color);">0</td>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color);">0%</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color);">Multiple Choice</td>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color);">0</td>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color);">0</td>
+                            <td style="padding: 1rem; border: 1rem solid var(--border-color);">0%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
     </div>
-    <!-- Onboarding Modal -->
-    <div id="onboarding-modal" class="modal">
-      <div class="modal-content">
-        <form id="onboard-form">
-          <div class="onboard-step" id="onboard-step-lang">
-            <h2>Welcome! Choose your language pairs:</h2>
-            <label><input type="checkbox" name="langs" value="fr-nl"> French ⇄ Dutch</label><br>
-            <label><input type="checkbox" name="langs" value="en-nl"> English ⇄ Dutch</label><br>
-            <button type="button" class="btn btn-accent" id="onboard-next-motivation">Next</button>
-          </div>
-          <div class="onboard-step" id="onboard-step-motivation">
-            <h2>Why are you learning?</h2>
-            <select id="motivation">
-              <option value="school">School</option>
-              <option value="travel">Travel</option>
-              <option value="fun">Fun</option>
-            </select>
-            <button type="button" class="btn btn-accent" id="onboard-next-level">Next</button>
-          </div>
-          <div class="onboard-step" id="onboard-step-level">
-            <h2>Your Level</h2>
-            <div id="levels"></div>
-            <button type="submit" class="btn btn-accent">Finish</button>
-          </div>
-        </form>
-      </div>
-    </div>
-    <!-- Main App Screens -->
-    <div id="language-selector" style="display:none">
-      <label for="lang-choice">Quiz Language: </label>
-      <select id="lang-choice">
-        <option value="fr-nl">French ⇄ Dutch</option>
-        <option value="en-nl">English ⇄ Dutch</option>
-      </select>
-    </div>
-    <div id="main-menu" class="screen">
-      <h1 class="centered-title neon-glow">Main Menu</h1>
-      <div class="menu-list">
-        <button class="btn btn-accent menu-btn animate-float" onclick="showQuizModeSelector()"><span>🎯 Start Quiz</span></button>
-        <button class="btn btn-accent menu-btn animate-float-delay" onclick="showScreen('add-word-menu')"><span>➕ Add New Word</span></button>
-        <button class="btn btn-accent menu-btn animate-float-delay2" onclick="showScreen('upload-bulk-menu')"><span>📤 Bulk Upload</span></button>
-        <button class="btn btn-accent menu-btn animate-float-delay3" onclick="showScreen('practice-hard-menu')"><span>🔥 Practice Hard Words</span></button>
-        <button class="btn btn-accent menu-btn animate-float-delay4" onclick="showScreen('practice-custom-menu')"><span>🧩 Practice Custom Words</span></button>
-        <button class="btn btn-accent menu-btn" onclick="showStatsScreen()"><span>📊 View Stats</span></button>
-        <button class="btn btn-accent menu-btn" onclick="showBackgroundGallery()"><span>🌈 Background Gallery</span></button>
-        <button class="btn btn-accent menu-btn" onclick="showModal('achievements-modal')"><span>🏆 Achievements</span></button>
-        <button class="btn btn-accent menu-btn" onclick="showModal('privacy-modal')"><span>🔒 Privacy Policy</span></button>
-        <button class="btn btn-accent menu-btn" onclick="showModal('shortcuts-modal')"><span>⌨️ Shortcuts & Help</span></button>
-        <button class="btn btn-accent menu-btn" id="dark-mode-toggle"><span>🌓 Toggle Dark/Light Mode</span></button>
-        <button class="btn btn-accent menu-btn" id="sound-toggle"><span>🔊 Sound</span></button>
-        <span id="god-mode-badge" style="display:none;">👑 God Mode</span>
-        <button class="btn btn-accent menu-btn" id="admin-panel-btn" style="display:none;" onclick="showModal('admin-modal')"><span>🛠️ Admin Panel</span></button>
-        <button class="btn btn-secondary menu-btn" onclick="window.logout()"><span>🚪 Logout</span></button>
-      </div>
-      <div style="margin: 1.3em 0 1.2em 0; text-align:center;">
-        <p>Words in vocabulary: <span id="vocab-count"></span></p>
-        <p>Hard words: <span id="hard-count"></span></p>
-      </div>
-      <div class="footer animate-fadein-delay2">
-        <span class="emoji-bounce">✨</span> Made by Lars for students! <span class="emoji-bounce">📚</span>
-      </div>
-    </div>
-    <!-- Bulk Upload Screen -->
-    <div id="upload-bulk-menu" class="screen">
-      <button class="btn btn-secondary back-btn" onclick="showScreen('main-menu')">Back to Menu</button>
-      <h2 class="centered-title">Bulk Upload Words</h2>
-      <div style="margin-bottom:1em;">
-        <input type="file" id="bulk-upload-file" accept=".txt,.csv">
-        <select id="bulk-from-lang">
-          <option value="fr">French</option>
-          <option value="nl">Dutch</option>
-          <option value="en">English</option>
-        </select>
-        →
-        <select id="bulk-to-lang">
-          <option value="fr">French</option>
-          <option value="nl">Dutch</option>
-          <option value="en">English</option>
-        </select>
-        <button class="btn btn-accent" id="bulk-upload-btn">Upload &amp; Preview</button>
-      </div>
-      <div id="bulk-upload-preview"></div>
-    </div>
-    <div id="quiz-screen" class="screen">
-      <button class="btn btn-secondary back-btn" onclick="showScreen('main-menu')">Back to Menu</button>
-      <h2 class="centered-title">Quiz</h2>
-      <div style="margin-bottom:1.2em; text-align:center;">
-        <span id="quiz-direction-label" style="font-weight:700;font-size:1.12em;letter-spacing:.02em;"></span>
-        <br>
-        <span id="question-direction" style="font-weight:600; color:var(--primary);"></span>
-        <span id="question-text" style="font-weight:500;"></span>
-      </div>
-      <div class="inputs-row" style="margin-bottom:0;">
-        <input type="text" id="answer-input" autocomplete="off" placeholder="Your answer">
-        <button class="btn" onclick="submitAnswer()">Submit</button>
-      </div>
-      <div id="feedback" class="feedback"></div>
-      <div style="margin-top:1.3em; text-align:center;">
-        <p>Score: <span id="current-score"></span> (<span id="score-percentage"></span>)</p>
-        <p>Question #: <span id="question-number"></span></p>
-      </div>
-    </div>
-    <div id="practice-hard-menu" class="screen">
-      <button class="btn btn-secondary back-btn" onclick="showScreen('main-menu')">Back to Menu</button>
-      <h2 class="centered-title">Practice Hard Words</h2>
-      <div style="text-align:center; margin-bottom:1.2em;">
-        <button class="btn btn-accent" onclick="practiceHardWords()">Start Practicing</button>
-      </div>
-      <div>
-        <h3>Recently Added Words</h3>
-        <div id="recent-list-hard"></div>
-        <h3>Hard Words List</h3>
-        <div id="hard-words-list"></div>
-        <button id="clear-hard-btn" class="btn btn-secondary" onclick="clearHardWords()" style="display:none;">Clear Hard Words</button>
-      </div>
-    </div>
-    <div id="practice-custom-menu" class="screen">
-      <button class="btn btn-secondary back-btn" onclick="showScreen('main-menu')">Back to Menu</button>
-      <h2 class="centered-title">Practice Custom Words</h2>
-      <div style="text-align:center; margin-bottom:1.2em;">
-        <button class="btn btn-accent" onclick="practiceCustomWords()">Start Custom Practice</button>
-      </div>
-    </div>
-    <div id="add-word-menu" class="screen">
-      <button class="btn btn-secondary back-btn" onclick="showScreen('main-menu')">Back to Menu</button>
-      <h2 class="centered-title">Add Custom Word</h2>
-      <div class="inputs-row">
-        <input type="text" id="custom-from-word" placeholder="Word in source language">
-        <input type="text" id="custom-to-word" placeholder="Word in target language">
-        <button class="btn" onclick="addNewWord()">Add</button>
-      </div>
-      <div>
-        <h3>Recently Added Words</h3>
-        <div id="recent-list"></div>
-      </div>
-    </div>
-    <div id="stats-screen" class="screen">
-      <button class="btn btn-secondary back-btn" onclick="showScreen('main-menu')">Back to Menu</button>
-      <h2 class="centered-title">Stats</h2>
-      <table class="stats-table">
-        <tr>
-          <th>Type</th>
-          <th>Correct</th>
-          <th>Total</th>
-          <th>Accuracy</th>
-        </tr>
-        <tr>
-          <td>Total</td>
-          <td id="correct-answers"></td>
-          <td id="total-questions"></td>
-          <td id="accuracy"></td>
-        </tr>
-      </table>
-    </div>
-    <div id="hard-words-modal" class="modal" tabindex="-1">
-      <div class="modal-content">
-        <h3>Add to Hard Words?</h3>
-        <p>This word will be added to your hard words list for extra practice. Continue?</p>
-        <button onclick="addToHardWords(true)" class="btn btn-accent">Add</button>
-        <button onclick="addToHardWords(false)" class="btn btn-secondary">Skip</button>
-      </div>
-    </div>
+
     <!-- Modals -->
-    <div id="background-gallery-modal" class="modal"><div class="modal-content"><h2>Background Gallery</h2><div id="background-gallery-list"></div><button class="btn" onclick="closeModal('background-gallery-modal')">Close</button></div></div>
-    <div id="achievements-modal" class="modal"><div class="modal-content"><h2>Achievements</h2><div id="achievements-list"></div><button class="btn" onclick="closeModal('achievements-modal')">Close</button></div></div>
-    <div id="privacy-modal" class="modal"><div class="modal-content"><h2>Privacy Policy</h2><div id="privacy-content">All your data stays on your device. No tracking, no ads, no cloud. Your words, your progress, your privacy.</div><button class="btn" onclick="closeModal('privacy-modal')">Close</button></div></div>
-    <div id="shortcuts-modal" class="modal"><div class="modal-content"><h2>Shortcuts & Help</h2><ul><li><b>Enter</b>: Submit answer</li><li><b>Esc</b>: Close modals</li><li><b>Ctrl+B</b>: Open Background Gallery</li><li><b>Ctrl+A</b>: Open Achievements</li><li><b>Ctrl+P</b>: Privacy Policy</li><li><b>Ctrl+H</b>: Shortcuts/Help</li></ul><button class="btn" onclick="closeModal('shortcuts-modal')">Close</button></div></div>
-    <div id="admin-modal" class="modal"><div class="modal-content"><h2>Admin Panel</h2><div id="admin-panel-content">(Admin features go here)</div><button class="btn" onclick="closeModal('admin-modal')">Close</button></div></div>
-    <div id="quiz-mode-modal" class="modal"><div class="modal-content"><h2>Choose Quiz Mode</h2><div class="mode-options"><button class="btn mode-btn" data-mode="typing">⌨️ Typing</button><button class="btn mode-btn" data-mode="multiple">🔢 Multiple Choice</button><button class="btn mode-btn" data-mode="flashcard">🃏 Flashcard</button><button class="btn mode-btn" data-mode="listening">🔊 Listening</button></div><button class="btn" id="close-mode-modal">Close</button></div></div>
-    <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;display:none;"></canvas>
-  </div>
-  <script src="script.js"></script>
+    
+    <!-- Quiz Mode Modal -->
+    <div id="quizModeModal" class="modal">
+        <div class="modal-content">
+            <h2>Choose Quiz Mode</h2>
+            <div class="menu-grid">
+                <div class="menu-item" onclick="startQuiz('typing')">
+                    <div class="menu-icon">⌨️</div>
+                    <div>Typing</div>
+                </div>
+                <div class="menu-item" onclick="startQuiz('multiple')">
+                    <div class="menu-icon">🔢</div>
+                    <div>Multiple Choice</div>
+                </div>
+                <div class="menu-item" onclick="startQuiz('flashcard')">
+                    <div class="menu-icon">🃏</div>
+                    <div>Flashcard</div>
+                </div>
+                <div class="menu-item" onclick="startQuiz('listening')">
+                    <div class="menu-icon">🔊</div>
+                    <div>Listening</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="hideModal('quizModeModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- Background Gallery Modal -->
+    <div id="backgroundModal" class="modal">
+        <div class="modal-content">
+            <h2>Background Gallery</h2>
+            <div class="background-gallery">
+                <div class="bg-option active" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);" onclick="changeBackground('gradient1')" data-bg="gradient1">
+                    <div class="bg-label">Default</div>
+                </div>
+                <div class="bg-option locked" style="background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);" onclick="changeBackground('gradient2')" data-bg="gradient2">
+                    <div class="bg-label">Streak 7 🔒</div>
+                </div>
+                <div class="bg-option locked" style="background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);" onclick="changeBackground('gradient3')" data-bg="gradient3">
+                    <div class="bg-label">Streak 30 🔒</div>
+                </div>
+                <div class="bg-option locked" style="background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%);" onclick="changeBackground('gradient4')" data-bg="gradient4">
+                    <div class="bg-label">Admin Only 🔒</div>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="hideModal('backgroundModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- Achievements Modal -->
+    <div id="achievementsModal" class="modal">
+        <div class="modal-content glass-effect">
+            <div class="achievements-header">
+                <h2>Achievements</h2>
+                <div class="achievement-stats">
+                    <div class="achievement-stat">
+                        <span id="unlockedCount">0</span>/<span id="totalCount">0</span>
+                        <small>Unlocked</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="achievements-grid">
+                <div class="achievement" id="achievement-firstQuiz">
+                    <div class="achievement-icon">🎯</div>
+                    <div class="achievement-info">
+                        <h3>First Quiz</h3>
+                        <p>Complete your first quiz</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">0/1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievement" id="achievement-streak7">
+                    <div class="achievement-icon">🔥</div>
+                    <div class="achievement-info">
+                        <h3>Hot Streak</h3>
+                        <p>Get a 7-day streak</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">0/7</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievement" id="achievement-streak30">
+                    <div class="achievement-icon">🏆</div>
+                    <div class="achievement-info">
+                        <h3>Unstoppable</h3>
+                        <p>Get a 30-day streak</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">0/30</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievement" id="achievement-words50">
+                    <div class="achievement-icon">📚</div>
+                    <div class="achievement-info">
+                        <h3>Word Master</h3>
+                        <p>Add 50 custom words</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">0/50</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievement" id="achievement-accuracy90">
+                    <div class="achievement-icon">🎯</div>
+                    <div class="achievement-info">
+                        <h3>Perfect Score</h3>
+                        <p>Get 90% accuracy in a quiz</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">0/90</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievement" id="achievement-admin">
+                    <div class="achievement-icon">👑</div>
+                    <div class="achievement-info">
+                        <h3>Admin Powers</h3>
+                        <p>Unlock admin mode</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">0/1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievement" id="achievement-languages5">
+                    <div class="achievement-icon">🌍</div>
+                    <div class="achievement-info">
+                        <h3>Polyglot</h3>
+                        <p>Learn words in 5 different languages</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">0/5</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="achievement" id="achievement-definitions20">
+                    <div class="achievement-icon">📖</div>
+                    <div class="achievement-info">
+                        <h3>Knowledge Seeker</h3>
+                        <p>Add 20 custom definitions</p>
+                        <div class="achievement-progress">
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 0%"></div>
+                            </div>
+                            <span class="progress-text">0/20</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-secondary glass-btn" onclick="hideModal('achievementsModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- Privacy Policy Modal -->
+    <div id="privacyModal" class="modal">
+        <div class="modal-content">
+            <h2>Privacy Policy</h2>
+            <p>All your data stays on your device. No tracking, no ads, no cloud. Your words, your progress, your privacy.</p>
+            <button class="btn btn-secondary" onclick="hideModal('privacyModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- Help Modal -->
+    <div id="helpModal" class="modal">
+        <div class="modal-content">
+            <h2>Shortcuts & Help</h2>
+            <div class="help-section">
+                <h3>Keyboard Shortcuts</h3>
+                <div class="shortcuts-grid">
+                    <div class="shortcut-item">
+                        <kbd>Enter</kbd>
+                        <span>Submit answer</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Esc</kbd>
+                        <span>Close modals</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Ctrl</kbd> + <kbd>B</kbd>
+                        <span>Background Gallery</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Ctrl</kbd> + <kbd>A</kbd>
+                        <span>Achievements</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Ctrl</kbd> + <kbd>P</kbd>
+                        <span>Privacy Policy</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Ctrl</kbd> + <kbd>H</kbd>
+                        <span>Help</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Ctrl</kbd> + <kbd>D</kbd>
+                        <span>Toggle Dark Mode</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Ctrl</kbd> + <kbd>M</kbd>
+                        <span>Toggle Sound</span>
+                    </div>
+                    <div class="shortcut-item">
+                        <kbd>Space</kbd>
+                        <span>Next (in Flashcard mode)</span>
+                    </div>
+                </div>
+
+                <h3>Quiz Modes</h3>
+                <ul class="help-list">
+                    <li><strong>Typing:</strong> Type the definition of the word</li>
+                    <li><strong>Multiple Choice:</strong> Choose from 4 options</li>
+                    <li><strong>Flashcard:</strong> Self-paced learning</li>
+                    <li><strong>Listening:</strong> Type what you hear</li>
+                </ul>
+
+                <h3>Features</h3>
+                <ul class="help-list">
+                    <li>Custom word lists</li>
+                    <li>Progress tracking</li>
+                    <li>Hard words practice</li>
+                    <li>Achievements system</li>
+                    <li>Unlockable backgrounds</li>
+                    <li>Dark/Light mode</li>
+                    <li>Sound effects</li>
+                </ul>
+            </div>
+            <button class="btn btn-secondary" onclick="hideModal('helpModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- Add to Hard Words Modal -->
+    <div id="addHardWordsModal" class="modal">
+        <div class="modal-content">
+            <h2>Add to Hard Words?</h2>
+            <p>This word will be added to your hard words list for extra practice. Continue?</p>
+            <div style="display: flex; gap: 1rem; justify-content: center; margin-top: 1rem;">
+                <button class="btn btn-warning" onclick="addToHardWords()">Add</button>
+                <button class="btn btn-secondary" onclick="skipHardWords()">Skip</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Onboarding Modal -->
+    <div id="onboardingModal" class="modal">
+        <div class="modal-content">
+            <div id="onboardingStep1" class="onboarding-step active">
+                <h2>Welcome to VOC Trainer! 👋</h2>
+                <p>Let's get you set up with a personalized learning experience.</p>
+                <div class="form-group">
+                    <label>What's your preferred language to learn?</label>
+                    <select id="preferredLanguage" class="form-control">
+                        <option value="en">English</option>
+                        <option value="fr">French</option>
+                        <option value="nl">Dutch</option>
+                    </select>
+                </div>
+                <button class="btn btn-primary" onclick="nextOnboardingStep(2)">Next →</button>
+            </div>
+            
+            <div id="onboardingStep2" class="onboarding-step">
+                <h2>Your Motivation 🎯</h2>
+                <p>What's your main goal for learning vocabulary?</p>
+                <div class="form-group">
+                    <select id="learningMotivation" class="form-control">
+                        <option value="academic">Academic Success</option>
+                        <option value="professional">Professional Growth</option>
+                        <option value="personal">Personal Interest</option>
+                        <option value="travel">Travel & Culture</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" onclick="previousOnboardingStep(1)">← Back</button>
+                <button class="btn btn-primary" onclick="nextOnboardingStep(3)">Next →</button>
+            </div>
+            
+            <div id="onboardingStep3" class="onboarding-step">
+                <h2>Your Level 📚</h2>
+                <p>How would you rate your current vocabulary level?</p>
+                <div class="form-group">
+                    <select id="proficiencyLevel" class="form-control">
+                        <option value="beginner">Beginner</option>
+                        <option value="intermediate">Intermediate</option>
+                        <option value="advanced">Advanced</option>
+                        <option value="native">Native Speaker</option>
+                    </select>
+                </div>
+                <button class="btn btn-secondary" onclick="previousOnboardingStep(2)">← Back</button>
+                <button class="btn btn-primary" onclick="completeOnboarding()">Get Started! 🚀</button>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Admin Panel Modal -->
+    <div id="adminPanelModal" class="modal">
+        <div class="modal-content admin-panel">
+            <div class="admin-header">
+                <h2>Admin Panel 👑</h2>
+                <div class="admin-badge" id="godModeBadge">God Mode: OFF</div>
+            </div>
+            
+            <div class="admin-stats">
+                <div class="admin-stat-item">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Active Users</div>
+                </div>
+                <div class="admin-stat-item">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Total Words</div>
+                </div>
+                <div class="admin-stat-item">
+                    <div class="stat-value">0</div>
+                    <div class="stat-label">Languages</div>
+                </div>
+            </div>
+
+            <div class="admin-sections">
+                <div class="admin-section">
+                    <h3>Quick Actions</h3>
+                    <div class="menu-grid">
+                        <div class="menu-item glass-effect" onclick="unlockAllBackgrounds()">
+                            <div class="menu-icon"><i class="fas fa-palette"></i></div>
+                            <div>Unlock All Backgrounds</div>
+                        </div>
+                        <div class="menu-item glass-effect" onclick="toggleGodMode()">
+                            <div class="menu-icon"><i class="fas fa-crown"></i></div>
+                            <div>Toggle God Mode</div>
+                        </div>
+                        <div class="menu-item glass-effect" onclick="resetAllStats()">
+                            <div class="menu-icon"><i class="fas fa-redo"></i></div>
+                            <div>Reset All Stats</div>
+                        </div>
+                        <div class="menu-item glass-effect" onclick="showLanguageManager()">
+                            <div class="menu-icon"><i class="fas fa-language"></i></div>
+                            <div>Manage Languages</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="admin-section">
+                    <h3>System Status</h3>
+                    <div class="status-grid">
+                        <div class="status-item">
+                            <i class="fas fa-database"></i>
+                            <span>Storage: Local</span>
+                        </div>
+                        <div class="status-item">
+                            <i class="fas fa-clock"></i>
+                            <span>Uptime: 0h</span>
+                        </div>
+                        <div class="status-item">
+                            <i class="fas fa-memory"></i>
+                            <span>Cache: Clear</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-footer">
+                <button class="btn btn-warning" onclick="clearAllData()">Clear All Data</button>
+                <button class="btn btn-secondary" onclick="hideModal('adminPanelModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Language Manager Modal -->
+    <div id="languageManagerModal" class="modal">
+        <div class="modal-content">
+            <h2>Language Manager</h2>
+            <div class="language-manager">
+                <div class="language-list">
+                    <h3>Available Languages</h3>
+                    <div id="availableLanguages" class="language-grid">
+                        <!-- Will be populated dynamically -->
+                    </div>
+                </div>
+
+                <div class="add-language-form">
+                    <h3>Add New Language</h3>
+                    <div class="form-group">
+                        <label>Language Name</label>
+                        <input type="text" id="newLanguageName" class="form-control" placeholder="e.g., Spanish">
+                    </div>
+                    <div class="form-group">
+                        <label>Language Code</label>
+                        <input type="text" id="newLanguageCode" class="form-control" placeholder="e.g., es">
+                    </div>
+                    <div class="form-group">
+                        <label>Flag Emoji</label>
+                        <input type="text" id="newLanguageFlag" class="form-control" placeholder="e.g., 🇪🇸">
+                    </div>
+                    <button class="btn btn-success" onclick="addNewLanguage()">Add Language</button>
+                </div>
+            </div>
+            <button class="btn btn-secondary" onclick="hideModal('languageManagerModal')">Close</button>
+        </div>
+    </div>
+
+    <!-- Language Selection Modal -->
+    <div id="languageSelectionModal" class="modal">
+        <div class="modal-content">
+            <h2>What would you like to learn today?</h2>
+            <div class="language-selection">
+                <div class="from-language">
+                    <h3>I speak:</h3>
+                    <div id="fromLanguages" class="language-grid">
+                        <!-- Will be populated dynamically -->
+                    </div>
+                </div>
+                <div class="to-language">
+                    <h3>I want to learn:</h3>
+                    <div id="toLanguages" class="language-grid">
+                        <!-- Will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" onclick="startLearning()">Start Learning</button>
+            <button class="btn btn-secondary" onclick="hideModal('languageSelectionModal')">Cancel</button>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
+    <script>
+        // Global variables
+        let currentUser = null;
+        let vocabulary = [
+            { word: "abundant", definition: "existing in large quantities; plentiful", language: "en" },
+            { word: "meticulous", definition: "showing great attention to detail; very careful", language: "en" },
+            { word: "pristine", definition: "in its original condition; unspoiled", language: "en" },
+            { word: "eloquent", definition: "fluent and persuasive in speaking or writing", language: "en" },
+            { word: "resilient", definition: "able to withstand or recover quickly from difficulties", language: "en" },
+            { word: "ambiguous", definition: "open to more than one interpretation; unclear", language: "en" },
+            { word: "benevolent", definition: "well-meaning and kindly", language: "en" },
+            { word: "comprehensive", definition: "complete and including everything", language: "en" },
+            { word: "diligent", definition: "having or showing care in work or duties", language: "en" },
+            { word: "ephemeral", definition: "lasting for a very short time", language: "en" }
+        ];
+        
+        let customWords = [];
+        let hardWords = [];
+        let userStats = {
+            typing: { correct: 0, total: 0 },
+            multiple: { correct: 0, total: 0 },
+            flashcard: { correct: 0, total: 0 },
+            listening: { correct: 0, total: 0 }
+        };
+        
+        let currentQuiz = {
+            mode: '',
+            questions: [],
+            currentQuestion: 0,
+            score: 0,
+            currentWord: null
+        };
+
+        // Global variables for user preferences
+        let userPreferences = {
+            language: 'en',
+            motivation: 'personal',
+            level: 'beginner',
+            isAdmin: false,
+            godMode: false,
+            unlockedBackgrounds: ['gradient1'],
+            achievements: [],
+            streakDays: 0,
+            currentBackground: 'gradient1'
+        };
+
+        // Initialize app
+        document.addEventListener('DOMContentLoaded', function() {
+            loadUserData();
+            checkFirstTimeUser();
+            updateStats();
+            setupKeyboardShortcuts();
+            updateStreakDisplay();
+        });
+
+        function checkFirstTimeUser() {
+            const isFirstTime = !localStorage.getItem('vocTrainerOnboarded');
+            if (isFirstTime) {
+                showModal('onboardingModal');
+            }
+        }
+
+        function nextOnboardingStep(step) {
+            document.querySelectorAll('.onboarding-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`onboardingStep${step}`).classList.add('active');
+        }
+
+        function previousOnboardingStep(step) {
+            document.querySelectorAll('.onboarding-step').forEach(s => s.classList.remove('active'));
+            document.getElementById(`onboardingStep${step}`).classList.add('active');
+        }
+
+        function completeOnboarding() {
+            userPreferences.language = document.getElementById('preferredLanguage').value;
+            userPreferences.motivation = document.getElementById('learningMotivation').value;
+            userPreferences.level = document.getElementById('proficiencyLevel').value;
+            
+            localStorage.setItem('vocTrainerOnboarded', 'true');
+            hideModal('onboardingModal');
+            saveUserData();
+            
+            // Show welcome confetti
+            showConfetti();
+        }
+
+        // Authentication
+        function login(type) {
+            const username = document.getElementById(type === 'admin' ? 'adminUsername' : 'username').value;
+            const password = document.getElementById(type === 'admin' ? 'adminPassword' : 'password').value;
+            
+            if (!username || !password) {
+                showNotification('Please enter both username and password', 'error');
+                return;
+            }
+            
+            if (type === 'admin') {
+                if (username === 'admin' && password === 'admin123') {
+                    userPreferences.isAdmin = true;
+                    userPreferences.godMode = false;
+                    showConfetti();
+                    unlockAchievement('admin');
+                    showNotification('Welcome, Administrator! 👑', 'success');
+                } else {
+                    showNotification('Invalid admin credentials', 'error');
+                    return;
+                }
+            }
+            
+            currentUser = username;
+            showScreen('mainMenu');
+            playSound('success');
+            saveUserData();
+        }
+
+        function logout() {
+            currentUser = null;
+            saveUserData();
+            showScreen('loginScreen');
+            playSound('logout');
+        }
+
+        // Screen management
+        function showScreen(screenId) {
+            document.querySelectorAll('.screen').forEach(screen => {
+                screen.classList.remove('active');
+            });
+            document.getElementById(screenId).classList.add('active');
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function hideModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Quiz functionality
+        function showQuizModeModal() {
+            showModal('quizModeModal');
+        }
+
+        function startQuiz(mode) {
+            currentQuiz.mode = mode;
+            currentQuiz.questions = [...vocabulary, ...customWords].sort(() => Math.random() - 0.5).slice(0, 10);
+            currentQuiz.currentQuestion = 0;
+            currentQuiz.score = 0;
+            
+            hideModal('quizModeModal');
+            showScreen('quizScreen');
+            nextQuestion();
+        }
+
+        function nextQuestion() {
+            if (currentQuiz.currentQuestion >= currentQuiz.questions.length) {
+                endQuiz();
+                return;
+            }
+
+            currentQuiz.currentWord = currentQuiz.questions[currentQuiz.currentQuestion];
+            updateQuizDisplay();
+            
+            const content = document.getElementById('quizContent');
+            
+            switch(currentQuiz.mode) {
+                case 'typing':
+                    content.innerHTML = `
+                        <p>What does this word mean?</p>
+                        <input type="text" id="typingAnswer" class="form-control" 
+                               placeholder="Type your answer..." onkeypress="handleQuizKeyPress(event)">
+                    `;
+                    break;
+                    
+                case 'multiple':
+                    const options = generateMultipleChoiceOptions(currentQuiz.currentWord);
+                    content.innerHTML = `
+                        <p>Choose the correct definition:</p>
+                        <div class="options-grid">
+                            ${options.map((option, index) => 
+                                `<div class="option-btn" onclick="selectOption(${index})" data-option="${index}">
+                                    ${option}
+                                </div>`
+                            ).join('')}
+                        </div>
+                    `;
+                    break;
+                    
+                case 'flashcard':
+                    content.innerHTML = `
+                        <p>Click to reveal the definition</p>
+                        <div id="flashcardContent" onclick="revealDefinition()">
+                            <div class="btn btn-primary">Reveal Definition</div>
+                        </div>
+                    `;
+                    break;
+                    
+                case 'listening':
+                    content.innerHTML = `
+                        <p>Listen to the word pronunciation</p>
+                        <button class="btn btn-primary" onclick="speakWord()">🔊 Play Audio</button>
+                        <input type="text" id="listeningAnswer" class="form-control" 
+                               placeholder="Type what you heard..." style="margin-top: 1rem;">
+                    `;
+                    break;
+            }
+        }
+
+        function generateMultipleChoiceOptions(correctWord) {
+            const allWords = [...vocabulary, ...customWords].filter(w => w.word !== correctWord.word);
+            const wrongOptions = allWords.sort(() => Math.random() - 0.5).slice(0, 3);
+            const options = [correctWord.definition, ...wrongOptions.map(w => w.definition)];
+            return options.sort(() => Math.random() - 0.5);
+        }
+
+        function selectOption(optionIndex) {
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(opt => opt.classList.remove('selected'));
+            options[optionIndex].classList.add('selected');
+            
+            // Store selected answer
+            currentQuiz.selectedOption = optionIndex;
+            currentQuiz.selectedText = options[optionIndex].textContent;
+        }
+
+        function submitAnswer() {
+            let isCorrect = false;
+            
+            switch(currentQuiz.mode) {
+                case 'typing':
+                    const typingAnswer = document.getElementById('typingAnswer').value.toLowerCase();
+                    const correctDef = currentQuiz.currentWord.definition.toLowerCase();
+                    isCorrect = checkTypingAnswer(typingAnswer, correctDef);
+                    break;
+                    
+                case 'multiple':
+                    if (currentQuiz.selectedText) {
+                        isCorrect = currentQuiz.selectedText === currentQuiz.currentWord.definition;
+                        highlightCorrectAnswer();
+                    }
+                    break;
+                    
+                case 'flashcard':
+                    // Flashcard mode - user decides if they knew it
+                    showFlashcardFeedback();
+                    return;
+                    
+                case 'listening':
+                    const listeningAnswer = document.getElementById('listeningAnswer').value.toLowerCase();
+                    isCorrect = listeningAnswer === currentQuiz.currentWord.word.toLowerCase();
+                    break;
+            }
+            
+            if (isCorrect) {
+                currentQuiz.score++;
+                playSound('correct');
+            } else {
+                playSound('incorrect');
+                if (Math.random() < 0.3) { // 30% chance to suggest adding to hard words
+                    setTimeout(() => showModal('addHardWordsModal'), 1000);
+                }
+            }
+            
+            // Update stats
+            userStats[currentQuiz.mode].total++;
+            if (isCorrect) {
+                userStats[currentQuiz.mode].correct++;
+            }
+            
+            setTimeout(() => {
+                currentQuiz.currentQuestion++;
+                nextQuestion();
+            }, 1500);
+        }
+
+        function checkTypingAnswer(userAnswer, correctAnswer) {
+            // Simple keyword matching
+            const userWords = userAnswer.split(' ');
+            const correctWords = correctAnswer.split(' ').filter(word => word.length > 3);
+            let matches = 0;
+            
+            correctWords.forEach(word => {
+                if (userWords.some(userWord => userWord.includes(word.substring(0, 4)))) {
+                    matches++;
+                }
+            });
+            
+            return matches >= Math.max(1, Math.floor(correctWords.length * 0.4));
+        }
+
+        function highlightCorrectAnswer() {
+            const options = document.querySelectorAll('.option-btn');
+            options.forEach(opt => {
+                if (opt.textContent === currentQuiz.currentWord.definition) {
+                    opt.classList.add('correct');
+                } else if (opt.classList.contains('selected')) {
+                    opt.classList.add('incorrect');
+                }
+            });
+        }
+
+        function revealDefinition() {
+            document.getElementById('flashcardContent').innerHTML = `
+                <div style="padding: 1rem; background: var(--card-bg); border-radius: 10px; margin-bottom: 1rem;">
+                    ${currentQuiz.currentWord.definition}
+                </div>
+                <div>
+                    <button class="btn btn-success" onclick="flashcardCorrect()">I knew it! ✓</button>
+                    <button class="btn btn-secondary" onclick="flashcardIncorrect()">I didn't know ✗</button>
+                </div>
+            `;
+        }
+
+        function showFlashcardFeedback() {
+            // Already handled in revealDefinition
+        }
+
+        function flashcardCorrect() {
+            currentQuiz.score++;
+            userStats.flashcard.total++;
+            userStats.flashcard.correct++;
+            playSound('correct');
+            
+            setTimeout(() => {
+                currentQuiz.currentQuestion++;
+                nextQuestion();
+            }, 500);
+        }
+
+        function flashcardIncorrect() {
+            userStats.flashcard.total++;
+            playSound('incorrect');
+            
+            if (Math.random() < 0.5) {
+                setTimeout(() => showModal('addHardWordsModal'), 500);
+            }
+            
+            setTimeout(() => {
+                currentQuiz.currentQuestion++;
+                nextQuestion();
+            }, 1000);
+        }
+
+        function speakWord() {
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(currentQuiz.currentWord.word);
+                utterance.rate = 0.8;
+                speechSynthesis.speak(utterance);
+            } else {
+                alert('Speech synthesis not supported in your browser');
+            }
+        }
+
+        function updateQuizDisplay() {
+            document.getElementById('questionNumber').textContent = currentQuiz.currentQuestion + 1;
+            document.getElementById('quizScore').textContent = currentQuiz.score;
+            document.getElementById('currentQuizWord').textContent = currentQuiz.currentWord.word;
+            
+            const progress = ((currentQuiz.currentQuestion + 1) / currentQuiz.questions.length) * 100;
+            document.getElementById('quizProgress').style.width = progress + '%';
+        }
+
+        function endQuiz() {
+            const percentage = Math.round((currentQuiz.score / currentQuiz.questions.length) * 100);
+            
+            // Check for achievements
+            if (!userPreferences.achievements.includes('firstQuiz')) {
+                unlockAchievement('firstQuiz');
+            }
+            
+            if (percentage >= 90 && !userPreferences.achievements.includes('accuracy90')) {
+                unlockAchievement('accuracy90');
+            }
+            
+            document.getElementById('quizQuestion').innerHTML = `
+                <div style="text-align: center;">
+                    <h2>Quiz Complete! 🎉</h2>
+                    <div style="font-size: 3rem; margin: 1rem 0;">${percentage}%</div>
+                    <p>You scored ${currentQuiz.score} out of ${currentQuiz.questions.length} questions</p>
+                    <div style="margin-top: 2rem;">
+                        <button class="btn btn-primary" onclick="showScreen('mainMenu')">Back to Menu</button>
+                        <button class="btn btn-success" onclick="startQuiz('${currentQuiz.mode}')">Try Again</button>
+                    </div>
+                </div>
+            `;
+            
+            document.getElementById('submitBtn').style.display = 'none';
+            saveUserData();
+            playSound('complete');
+        }
+
+        function handleQuizKeyPress(event) {
+            if (event.key === 'Enter') {
+                submitAnswer();
+            }
+        }
+
+        // Hard words management
+        function addToHardWords() {
+            if (!hardWords.find(w => w.word === currentQuiz.currentWord.word)) {
+                hardWords.push(currentQuiz.currentWord);
+                updateStats();
+                saveUserData();
+            }
+            hideModal('addHardWordsModal');
+        }
+
+        function skipHardWords() {
+            hideModal('addHardWordsModal');
+        }
+
+        function startHardWordsPractice() {
+            if (hardWords.length === 0) {
+                alert('No hard words to practice yet!');
+                return;
+            }
+            
+            currentQuiz.mode = 'typing';
+            currentQuiz.questions = [...hardWords].sort(() => Math.random() - 0.5);
+            currentQuiz.currentQuestion = 0;
+            currentQuiz.score = 0;
+            
+            showScreen('quizScreen');
+            nextQuestion();
+        }
+
+        function updateHardWordsList() {
+            const list = document.getElementById('hardWordsList');
+            if (!list) return;
+            
+            list.innerHTML = hardWords.map(word => `
+                <div class="word-item">
+                    <div>
+                        <strong>${word.word}</strong><br>
+                        <small>${word.definition}</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="removeFromHardWords('${word.word}')">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function removeFromHardWords(word) {
+            hardWords = hardWords.filter(w => w.word !== word);
+            updateHardWordsList();
+            updateStats();
+            saveUserData();
+        }
+
+        // Custom words management
+        function addCustomWord() {
+            const word = document.getElementById('newWord').value.trim();
+            const definition = document.getElementById('newDefinition').value.trim();
+            const language = document.getElementById('newLanguage').value;
+            
+            if (!word || !definition) {
+                alert('Please fill in both word and definition');
+                return;
+            }
+            
+            const newWord = { word, definition, language, custom: true };
+            customWords.push(newWord);
+            
+            // Clear form
+            document.getElementById('newWord').value = '';
+            document.getElementById('newDefinition').value = '';
+            
+            updateStats();
+            updateRecentWords();
+            saveUserData();
+            playSound('success');
+            
+            if (customWords.length >= 50 && !userPreferences.achievements.includes('words50')) {
+                unlockAchievement('words50');
+            }
+        }
+
+        function updateRecentWords() {
+            const recentList = document.getElementById('recentWords');
+            if (!recentList) return;
+            
+            const recent = customWords.slice(-5).reverse();
+            recentList.innerHTML = recent.map(word => `
+                <div class="word-item">
+                    <div>
+                        <strong>${word.word}</strong><br>
+                        <small>${word.definition}</small>
+                    </div>
+                    <button class="btn btn-secondary" onclick="removeCustomWord('${word.word}')">Remove</button>
+                </div>
+            `).join('');
+        }
+
+        function removeCustomWord(word) {
+            customWords = customWords.filter(w => w.word !== word);
+            updateRecentWords();
+            updateStats();
+            saveUserData();
+        }
+
+        function startCustomPractice() {
+            if (customWords.length === 0) {
+                alert('No custom words to practice yet!');
+                return;
+            }
+            
+            currentQuiz.mode = 'typing';
+            currentQuiz.questions = [...customWords].sort(() => Math.random() - 0.5);
+            currentQuiz.currentQuestion = 0;
+            currentQuiz.score = 0;
+            
+            showScreen('quizScreen');
+            nextQuestion();
+        }
+
+        // File upload
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const csv = e.target.result;
+                const lines = csv.split('\n');
+                let imported = 0;
+                
+                lines.forEach(line => {
+                    const [word, definition, language] = line.split(',').map(s => s.trim());
+                    if (word && definition) {
+                        customWords.push({ word, definition, language: language || 'en', custom: true });
+                        imported++;
+                    }
+                });
+                
+                alert(`Imported ${imported} words successfully!`);
+                updateStats();
+                saveUserData();
+            };
+            reader.readAsText(file);
+        }
+
+        // Theme and settings
+        function toggleDarkMode() {
+            const isDark = document.getElementById('darkModeToggle').checked;
+            document.body.setAttribute('data-theme', isDark ? 'dark' : 'light');
+            saveUserData();
+            
+            // Show feedback
+            showNotification(`${isDark ? 'Dark' : 'Light'} mode activated`);
+        }
+
+        function toggleSound() {
+            const isOn = document.getElementById('soundToggle').checked;
+            saveUserData();
+            
+            // Show feedback
+            showNotification(`Sound ${isOn ? 'enabled' : 'disabled'}`);
+            if (isOn) {
+                playSound('success');
+            }
+        }
+
+        function changeBackground(bgId) {
+            const bgOption = document.querySelector(`[data-bg="${bgId}"]`);
+            
+            if (bgOption.classList.contains('locked') && !userPreferences.isAdmin) {
+                playSound('incorrect');
+                return;
+            }
+            
+            const backgrounds = {
+                gradient1: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                gradient2: 'linear-gradient(135deg, #f093fb 0%, #f5576c 100%)',
+                gradient3: 'linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)',
+                gradient4: 'linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)'
+            };
+            
+            document.body.style.background = backgrounds[bgId];
+            document.querySelectorAll('.bg-option').forEach(opt => opt.classList.remove('active'));
+            bgOption.classList.add('active');
+            
+            userPreferences.currentBackground = bgId;
+            saveUserData();
+            
+            hideModal('backgroundModal');
+            playSound('success');
+        }
+
+        function updateBackgroundGallery() {
+            document.querySelectorAll('.bg-option').forEach(bg => {
+                const bgId = bg.getAttribute('data-bg');
+                
+                if (userPreferences.unlockedBackgrounds.includes(bgId) || userPreferences.isAdmin) {
+                    bg.classList.remove('locked');
+                } else {
+                    bg.classList.add('locked');
+                }
+                
+                if (bgId === userPreferences.currentBackground) {
+                    bg.classList.add('active');
+                }
+            });
+        }
+
+        function updateAchievements() {
+            userPreferences.achievements.forEach(id => {
+                const achievementEl = document.getElementById(`achievement-${id}`);
+                if (achievementEl) {
+                    achievementEl.classList.add('unlocked');
+                }
+            });
+        }
+
+        // Sound effects
+        function playSound(type) {
+            if (!document.getElementById('soundToggle').checked) return;
+            
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            
+            const frequencies = {
+                success: 523.25, // C5
+                incorrect: 261.63, // C4
+                correct: 659.25, // E5
+                complete: 783.99, // G5
+                logout: 220.00 // A3
+            };
+            
+            oscillator.frequency.setValueAtTime(frequencies[type] || 440, audioContext.currentTime);
+            oscillator.type = 'sine';
+            
+            gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
+            gainNode.gain.exponentialRampToValueAtTime(0.01, audioContext.currentTime + 0.5);
+            
+            oscillator.start(audioContext.currentTime);
+            oscillator.stop(audioContext.currentTime + 0.5);
+        }
+
+        // Statistics
+        function updateStats() {
+            document.getElementById('totalWordsCount').textContent = vocabulary.length + customWords.length;
+            document.getElementById('hardWordsCount').textContent = hardWords.length;
+            
+            updateHardWordsList();
+            updateRecentWords();
+        }
+
+        // Keyboard shortcuts
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', function(event) {
+                // Don't trigger shortcuts when typing in input fields
+                if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+                    return;
+                }
+
+                if (event.ctrlKey) {
+                    switch(event.key.toLowerCase()) {
+                        case 'b':
+                            event.preventDefault();
+                            showModal('backgroundModal');
+                            break;
+                        case 'a':
+                            event.preventDefault();
+                            showModal('achievementsModal');
+                            break;
+                        case 'p':
+                            event.preventDefault();
+                            showModal('privacyModal');
+                            break;
+                        case 'h':
+                            event.preventDefault();
+                            showModal('helpModal');
+                            break;
+                        case 'd':
+                            event.preventDefault();
+                            document.getElementById('darkModeToggle').click();
+                            break;
+                        case 'm':
+                            event.preventDefault();
+                            document.getElementById('soundToggle').click();
+                            break;
+                    }
+                } else if (event.key === 'Escape') {
+                    // Close any open modals
+                    document.querySelectorAll('.modal').forEach(modal => {
+                        modal.classList.remove('active');
+                    });
+                } else if (event.key === ' ' && currentQuiz.mode === 'flashcard') {
+                    // Space to reveal/next in flashcard mode
+                    event.preventDefault();
+                    const flashcardContent = document.getElementById('flashcardContent');
+                    if (flashcardContent.textContent.includes('Reveal')) {
+                        revealDefinition();
+                    } else {
+                        flashcardCorrect();
+                    }
+                }
+            });
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <div class="notification-content">
+                    <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            notification.offsetHeight; // Force reflow
+            notification.classList.add('show');
+            
+            setTimeout(() => {
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Data persistence
+        function saveUserData() {
+            const userData = {
+                customWords,
+                hardWords,
+                userStats,
+                settings: {
+                    darkMode: document.getElementById('darkModeToggle')?.checked || false,
+                    sound: document.getElementById('soundToggle')?.checked || true,
+                    lastLoginDate: new Date().toISOString(),
+                    streakDays: userPreferences.streakDays || 0,
+                    lastBackground: userPreferences.currentBackground
+                },
+                preferences: userPreferences,
+                languages: availableLanguages
+            };
+            
+            localStorage.setItem('vocTrainerData', JSON.stringify(userData));
+            window.userData = userData;
+        }
+
+        function loadUserData() {
+            // Try to load from localStorage first
+            let userData = null;
+            try {
+                const savedData = localStorage.getItem('vocTrainerData');
+                if (savedData) {
+                    userData = JSON.parse(savedData);
+                }
+            } catch (e) {
+                console.error('Error loading data from localStorage:', e);
+                userData = window.userData || {};
+            }
+            
+            // Initialize or update user data
+            customWords = userData.customWords || [];
+            hardWords = userData.hardWords || [];
+            userStats = userData.userStats || {
+                typing: { correct: 0, total: 0 },
+                multiple: { correct: 0, total: 0 },
+                flashcard: { correct: 0, total: 0 },
+                listening: { correct: 0, total: 0 }
+            };
+            
+            // Load settings
+            if (userData.settings) {
+                if (userData.settings.darkMode) {
+                    document.getElementById('darkModeToggle').checked = true;
+                    toggleDarkMode();
+                }
+                if (userData.settings.sound !== undefined) {
+                    document.getElementById('soundToggle').checked = userData.settings.sound;
+                }
+                
+                // Check streak
+                const lastLogin = userData.settings.lastLoginDate ? new Date(userData.settings.lastLoginDate) : null;
+                const today = new Date();
+                if (lastLogin) {
+                    const daysSinceLastLogin = Math.floor((today - lastLogin) / (1000 * 60 * 60 * 24));
+                    if (daysSinceLastLogin === 1) {
+                        // Increment streak
+                        userPreferences.streakDays = (userData.settings.streakDays || 0) + 1;
+                        
+                        // Check for streak achievements
+                        if (userPreferences.streakDays >= 7 && !userPreferences.achievements.includes('streak7')) {
+                            unlockAchievement('streak7');
+                            userPreferences.unlockedBackgrounds.push('gradient2');
+                            showNotification('New background unlocked! 🎨');
+                        }
+                        if (userPreferences.streakDays >= 30 && !userPreferences.achievements.includes('streak30')) {
+                            unlockAchievement('streak30');
+                            userPreferences.unlockedBackgrounds.push('gradient3');
+                            showNotification('New background unlocked! 🎨');
+                        }
+                    } else if (daysSinceLastLogin > 1) {
+                        // Reset streak
+                        userPreferences.streakDays = 1;
+                    }
+                } else {
+                    userPreferences.streakDays = 1;
+                }
+            }
+            
+            // Load preferences
+            if (userData.preferences) {
+                userPreferences = {
+                    ...userPreferences,
+                    ...userData.preferences
+                };
+                
+                if (userPreferences.currentBackground) {
+                    changeBackground(userPreferences.currentBackground);
+                }
+            }
+            
+            // Update UI
+            updateBackgroundGallery();
+            updateAchievements();
+            updateStreakDisplay();
+
+            if (userData.languages) {
+                availableLanguages = userData.languages;
+            }
+            
+            // Show language selection on first login
+            if (!userPreferences.currentLanguages) {
+                showLanguageSelection();
+            }
+        }
+
+        function updateStreakDisplay() {
+            const streakDisplay = document.createElement('div');
+            streakDisplay.className = 'streak-display';
+            streakDisplay.innerHTML = `
+                <div class="streak-count">
+                    <span>🔥</span>
+                    <span>${userPreferences.streakDays || 0}</span>
+                    <small>day${userPreferences.streakDays === 1 ? '' : 's'}</small>
+                </div>
+            `;
+            
+            // Add to header
+            const header = document.querySelector('.header');
+            const existingStreak = header.querySelector('.streak-display');
+            if (existingStreak) {
+                existingStreak.remove();
+            }
+            header.firstElementChild.after(streakDisplay);
+        }
+
+        // Admin functionality
+        function unlockAllBackgrounds() {
+            const allBackgrounds = ['gradient1', 'gradient2', 'gradient3', 'gradient4'];
+            userPreferences.unlockedBackgrounds = allBackgrounds;
+            showConfetti();
+            saveUserData();
+            alert('All backgrounds unlocked! 🎨');
+        }
+
+        function toggleGodMode() {
+            if (!userPreferences.isAdmin) {
+                showNotification('Nice try! Admin access required 😉', 'error');
+                return;
+            }
+            
+            userPreferences.godMode = !userPreferences.godMode;
+            const badge = document.getElementById('godModeBadge');
+            badge.textContent = `God Mode: ${userPreferences.godMode ? 'ON' : 'OFF'}`;
+            badge.classList.toggle('god-mode', userPreferences.godMode);
+            
+            saveUserData();
+            showConfetti();
+            showNotification(`God Mode ${userPreferences.godMode ? 'Activated ✨' : 'Deactivated'}`, 'success');
+        }
+
+        function clearAllData() {
+            if (!userPreferences.isAdmin) {
+                showNotification('Admin access required', 'error');
+                return;
+            }
+            
+            if (confirm('Are you sure? This will delete ALL data!')) {
+                localStorage.clear();
+                window.userData = null;
+                showNotification('All data cleared successfully', 'success');
+                setTimeout(() => {
+                    window.location.reload();
+                }, 1500);
+            }
+        }
+
+        function resetAllStats() {
+            if (!userPreferences.isAdmin) {
+                showNotification('Admin access required', 'error');
+                return;
+            }
+            
+            userStats = {
+                typing: { correct: 0, total: 0 },
+                multiple: { correct: 0, total: 0 },
+                flashcard: { correct: 0, total: 0 },
+                listening: { correct: 0, total: 0 }
+            };
+            
+            saveUserData();
+            showNotification('Stats reset successfully', 'success');
+        }
+
+        // Confetti effect
+        function showConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+        }
+
+        // Achievement system
+        function unlockAchievement(id) {
+            if (!userPreferences.achievements.includes(id)) {
+                userPreferences.achievements.push(id);
+                showConfetti();
+                saveUserData();
+                
+                const achievements = {
+                    firstQuiz: 'First Quiz Completed! 🎯',
+                    streak7: '7-Day Streak! 🔥',
+                    streak30: '30-Day Streak! 🏆',
+                    words50: 'Vocabulary Master (50 words)! 📚',
+                    accuracy90: '90% Accuracy Achieved! 🎯',
+                    admin: 'Admin Powers Unlocked! 👑'
+                };
+                
+                if (achievements[id]) {
+                    showAchievementNotification(achievements[id]);
+                }
+            }
+        }
+
+        function showAchievementNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'achievement-notification';
+            notification.innerHTML = `
+                <div class="achievement-content">
+                    <h3>Achievement Unlocked! 🏆</h3>
+                    <p>${message}</p>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            setTimeout(() => notification.remove(), 3000);
+        }
+
+        // Language system
+        let availableLanguages = [
+            { name: 'English', code: 'en', flag: '🇬🇧' },
+            { name: 'French', code: 'fr', flag: '🇫🇷' },
+            { name: 'Dutch', code: 'nl', flag: '🇳🇱' }
+        ];
+
+        let selectedLanguages = {
+            from: null,
+            to: null
+        };
+
+        function showLanguageManager() {
+            if (!userPreferences.isAdmin) {
+                showNotification('Admin access required', 'error');
+                return;
+            }
+            
+            updateLanguageGrid();
+            showModal('languageManagerModal');
+        }
+
+        function updateLanguageGrid() {
+            const grid = document.getElementById('availableLanguages');
+            grid.innerHTML = availableLanguages.map(lang => `
+                <div class="language-card">
+                    <div class="language-flag">${lang.flag}</div>
+                    <div class="language-name">${lang.name}</div>
+                    <div class="language-code">${lang.code}</div>
+                    ${userPreferences.isAdmin ? `
+                        <button class="btn btn-warning btn-sm" onclick="removeLanguage('${lang.code}')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    ` : ''}
+                </div>
+            `).join('');
+        }
+
+        function addNewLanguage() {
+            const name = document.getElementById('newLanguageName').value.trim();
+            const code = document.getElementById('newLanguageCode').value.trim().toLowerCase();
+            const flag = document.getElementById('newLanguageFlag').value.trim();
+            
+            if (!name || !code || !flag) {
+                showNotification('Please fill in all fields', 'error');
+                return;
+            }
+            
+            if (availableLanguages.some(lang => lang.code === code)) {
+                showNotification('Language code already exists', 'error');
+                return;
+            }
+            
+            availableLanguages.push({ name, code, flag });
+            updateLanguageGrid();
+            showNotification(`${name} added successfully!`, 'success');
+            
+            // Clear form
+            document.getElementById('newLanguageName').value = '';
+            document.getElementById('newLanguageCode').value = '';
+            document.getElementById('newLanguageFlag').value = '';
+            
+            saveUserData();
+        }
+
+        function removeLanguage(code) {
+            if (!userPreferences.isAdmin) {
+                showNotification('Admin access required', 'error');
+                return;
+            }
+            
+            const lang = availableLanguages.find(l => l.code === code);
+            if (lang && confirm(`Are you sure you want to remove ${lang.name}?`)) {
+                availableLanguages = availableLanguages.filter(l => l.code !== code);
+                updateLanguageGrid();
+                showNotification(`${lang.name} removed`, 'success');
+                saveUserData();
+            }
+        }
+
+        function showLanguageSelection() {
+            updateLanguageSelectionGrids();
+            showModal('languageSelectionModal');
+        }
+
+        function updateLanguageSelectionGrids() {
+            const fromGrid = document.getElementById('fromLanguages');
+            const toGrid = document.getElementById('toLanguages');
+            
+            const createLanguageCards = (container, type) => {
+                container.innerHTML = availableLanguages.map(lang => `
+                    <div class="language-card ${selectedLanguages[type]?.code === lang.code ? 'selected' : ''}"
+                         onclick="selectLanguage('${type}', '${lang.code}')">
+                        <div class="language-flag">${lang.flag}</div>
+                        <div class="language-name">${lang.name}</div>
+                    </div>
+                `).join('');
+            };
+            
+            createLanguageCards(fromGrid, 'from');
+            createLanguageCards(toGrid, 'to');
+        }
+
+        function selectLanguage(type, code) {
+            const lang = availableLanguages.find(l => l.code === code);
+            if (!lang) return;
+            
+            // Don't allow selecting same language for both
+            if (type === 'to' && selectedLanguages.from?.code === code) {
+                showNotification("Can't learn the same language you speak!", 'error');
+                return;
+            }
+            
+            selectedLanguages[type] = lang;
+            updateLanguageSelectionGrids();
+        }
+
+        function startLearning() {
+            if (!selectedLanguages.from || !selectedLanguages.to) {
+                showNotification('Please select both languages', 'error');
+                return;
+            }
+            
+            userPreferences.currentLanguages = selectedLanguages;
+            hideModal('languageSelectionModal');
+            showScreen('mainMenu');
+            showNotification(`Learning ${selectedLanguages.to.name} from ${selectedLanguages.from.name}`, 'success');
+            saveUserData();
+        }
+
+        function switchLoginTab(tab) {
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.login-form').forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            document.querySelector(`.tab-btn[onclick*="${tab}"]`).classList.add('active');
+            document.getElementById(`${tab}LoginForm`).classList.add('active');
+        }
+
+        function switchAddType(type) {
+            document.querySelectorAll('.add-type-toggle .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelectorAll('.add-form').forEach(form => {
+                form.classList.remove('active');
+            });
+            
+            document.querySelector(`.tab-btn[onclick*="${type}"]`).classList.add('active');
+            document.getElementById(`${type}${type === 'word' ? 'TranslationForm' : 'Form'}`).classList.add('active');
+        }
+
+        function updateLanguageChips() {
+            const sourceChips = document.getElementById('sourceLanguageChips');
+            const targetChips = document.getElementById('targetLanguageChips');
+            
+            if (!sourceChips || !targetChips) return;
+            
+            sourceChips.innerHTML = availableLanguages.map(lang => `
+                <div class="language-chip ${userPreferences.selectedSourceLanguages?.includes(lang.code) ? 'selected' : ''}"
+                     onclick="toggleSourceLanguage('${lang.code}')">
+                    ${lang.flag} ${lang.name}
+                </div>
+            `).join('');
+            
+            targetChips.innerHTML = availableLanguages.map(lang => `
+                <div class="language-chip ${userPreferences.selectedTargetLanguages?.includes(lang.code) ? 'selected' : ''}"
+                     onclick="toggleTargetLanguage('${lang.code}')">
+                    ${lang.flag} ${lang.name}
+                </div>
+            `).join('');
+        }
+
+        function toggleSourceLanguage(code) {
+            if (!userPreferences.selectedSourceLanguages) {
+                userPreferences.selectedSourceLanguages = [];
+            }
+            
+            const index = userPreferences.selectedSourceLanguages.indexOf(code);
+            if (index === -1) {
+                userPreferences.selectedSourceLanguages.push(code);
+            } else {
+                userPreferences.selectedSourceLanguages.splice(index, 1);
+            }
+            
+            updateLanguageChips();
+            saveUserData();
+        }
+
+        function toggleTargetLanguage(code) {
+            if (!userPreferences.selectedTargetLanguages) {
+                userPreferences.selectedTargetLanguages = [];
+            }
+            
+            const index = userPreferences.selectedTargetLanguages.indexOf(code);
+            if (index === -1) {
+                userPreferences.selectedTargetLanguages.push(code);
+            } else {
+                userPreferences.selectedTargetLanguages.splice(index, 1);
+            }
+            
+            updateLanguageChips();
+            saveUserData();
+        }
+
+        function addTranslationPair() {
+            const container = document.getElementById('translationsContainer');
+            const newPair = document.createElement('div');
+            newPair.className = 'translation-pair';
+            newPair.innerHTML = `
+                <button class="remove-btn" onclick="this.parentElement.remove()">×</button>
+                <div class="form-group">
+                    <label>Original Word</label>
+                    <input type="text" class="form-control glass-input" placeholder="e.g., Bonjour">
+                </div>
+                <div class="form-group">
+                    <label>Translation</label>
+                    <input type="text" class="form-control glass-input" placeholder="e.g., Hello">
+                </div>
+            `;
+            container.appendChild(newPair);
+        }
+
+        function addNewEntry() {
+            const isWordTranslation = document.getElementById('wordTranslationForm').classList.contains('active');
+            
+            if (isWordTranslation) {
+                addWordTranslations();
+            } else {
+                addDefinition();
+            }
+        }
+
+        function addWordTranslations() {
+            if (!userPreferences.selectedSourceLanguages?.length || !userPreferences.selectedTargetLanguages?.length) {
+                showNotification('Please select at least one source and target language', 'error');
+                return;
+            }
+            
+            const pairs = document.querySelectorAll('.translation-pair');
+            const translations = [];
+            
+            pairs.forEach(pair => {
+                const original = pair.querySelector('input:first-of-type').value.trim();
+                const translation = pair.querySelector('input:last-of-type').value.trim();
+                
+                if (original && translation) {
+                    translations.push({
+                        original,
+                        translation,
+                        fromLanguages: [...userPreferences.selectedSourceLanguages],
+                        toLanguages: [...userPreferences.selectedTargetLanguages]
+                    });
+                }
+            });
+            
+            if (translations.length === 0) {
+                showNotification('Please add at least one valid translation', 'error');
+                return;
+            }
+            
+            translations.forEach(t => {
+                customWords.push({
+                    word: t.original,
+                    definition: t.translation,
+                    type: 'translation',
+                    fromLanguages: t.fromLanguages,
+                    toLanguages: t.toLanguages
+                });
+            });
+            
+            showNotification('Translations added successfully!', 'success');
+            clearTranslationForm();
+            updateRecentEntries();
+            saveUserData();
+        }
+
+        function addDefinition() {
+            const category = document.getElementById('definitionCategory').value;
+            const customCat = document.getElementById('customCategory').value.trim();
+            const term = document.getElementById('definitionTerm').value.trim();
+            const definition = document.getElementById('definitionText').value.trim();
+            const tags = document.getElementById('definitionTags').value.trim();
+            
+            if (!term || !definition) {
+                showNotification('Please enter both term and definition', 'error');
+                return;
+            }
+            
+            customWords.push({
+                word: term,
+                definition: definition,
+                type: 'definition',
+                category: category === 'custom' ? customCat : category,
+                tags: tags ? tags.split(',').map(t => t.trim()) : []
+            });
+            
+            showNotification('Definition added successfully!', 'success');
+            clearDefinitionForm();
+            updateRecentEntries();
+            saveUserData();
+        }
+
+        function clearTranslationForm() {
+            document.querySelectorAll('.translation-pair input').forEach(input => {
+                input.value = '';
+            });
+        }
+
+        function clearDefinitionForm() {
+            document.getElementById('definitionTerm').value = '';
+            document.getElementById('definitionText').value = '';
+            document.getElementById('definitionTags').value = '';
+            document.getElementById('definitionCategory').value = 'general';
+            document.getElementById('customCategory').value = '';
+            document.getElementById('customCategoryGroup').style.display = 'none';
+        }
+
+        function switchEntriesView(type) {
+            document.querySelectorAll('.entries-tabs .tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.tab-btn[onclick*="${type}"]`).classList.add('active');
+            updateRecentEntries(type);
+        }
+
+        function updateRecentEntries(type = 'words') {
+            const entriesList = document.getElementById('recentEntries');
+            const entries = customWords.filter(w => type === 'words' ? w.type === 'translation' : w.type === 'definition').slice(-5).reverse();
+            
+            entriesList.innerHTML = entries.map(entry => `
+                <div class="entry-item">
+                    <div class="entry-header">
+                        <strong>${entry.word}</strong>
+                        <button class="btn btn-sm btn-warning" onclick="removeEntry('${entry.word}')">Remove</button>
+                    </div>
+                    <div class="entry-content">${entry.definition}</div>
+                    ${entry.type === 'translation' ? `
+                        <div class="entry-tags">
+                            ${entry.fromLanguages.map(code => `
+                                <span class="entry-tag">${availableLanguages.find(l => l.code === code)?.flag || code}</span>
+                            `).join('')}
+                            →
+                            ${entry.toLanguages.map(code => `
+                                <span class="entry-tag">${availableLanguages.find(l => l.code === code)?.flag || code}</span>
+                            `).join('')}
+                        </div>
+                    ` : `
+                        <div class="entry-tags">
+                            <span class="entry-tag">${entry.category}</span>
+                            ${entry.tags?.map(tag => `<span class="entry-tag">${tag}</span>`).join('') || ''}
+                        </div>
+                    `}
+                </div>
+            `).join('') || `<p class="text-center">No ${type} added yet</p>`;
+        }
+
+        function removeEntry(word) {
+            customWords = customWords.filter(w => w.word !== word);
+            updateRecentEntries();
+            saveUserData();
+        }
+
+        // Initialize the add word screen when shown
+        document.getElementById('addWordScreen')?.addEventListener('show', function() {
+            updateLanguageChips();
+            updateRecentEntries();
+        });
+
+        // Handle custom category selection
+        document.getElementById('definitionCategory')?.addEventListener('change', function(e) {
+            document.getElementById('customCategoryGroup').style.display = 
+                e.target.value === 'custom' ? 'block' : 'none';
+        });
+
+        const ACHIEVEMENTS = {
+            firstQuiz: {
+                name: 'First Quiz',
+                description: 'Complete your first quiz',
+                icon: '🎯',
+                maxProgress: 1,
+                check: () => userStats.typing.total + userStats.multiple.total + userStats.flashcard.total + userStats.listening.total > 0
+            },
+            streak7: {
+                name: 'Hot Streak',
+                description: 'Get a 7-day streak',
+                icon: '🔥',
+                maxProgress: 7,
+                check: () => userPreferences.streakDays >= 7,
+                getProgress: () => Math.min(userPreferences.streakDays, 7)
+            },
+            streak30: {
+                name: 'Unstoppable',
+                description: 'Get a 30-day streak',
+                icon: '🏆',
+                maxProgress: 30,
+                check: () => userPreferences.streakDays >= 30,
+                getProgress: () => Math.min(userPreferences.streakDays, 30)
+            },
+            words50: {
+                name: 'Word Master',
+                description: 'Add 50 custom words',
+                icon: '📚',
+                maxProgress: 50,
+                check: () => customWords.filter(w => w.type === 'translation').length >= 50,
+                getProgress: () => Math.min(customWords.filter(w => w.type === 'translation').length, 50)
+            },
+            accuracy90: {
+                name: 'Perfect Score',
+                description: 'Get 90% accuracy in a quiz',
+                icon: '🎯',
+                maxProgress: 90,
+                check: () => {
+                    const total = userStats.typing.total + userStats.multiple.total;
+                    const correct = userStats.typing.correct + userStats.multiple.correct;
+                    return total > 0 && (correct / total) * 100 >= 90;
+                },
+                getProgress: () => {
+                    const total = userStats.typing.total + userStats.multiple.total;
+                    const correct = userStats.typing.correct + userStats.multiple.correct;
+                    return total > 0 ? Math.min(Math.round((correct / total) * 100), 90) : 0;
+                }
+            },
+            admin: {
+                name: 'Admin Powers',
+                description: 'Unlock admin mode',
+                icon: '👑',
+                maxProgress: 1,
+                check: () => userPreferences.isAdmin
+            },
+            languages5: {
+                name: 'Polyglot',
+                description: 'Learn words in 5 different languages',
+                icon: '🌍',
+                maxProgress: 5,
+                check: () => {
+                    const languages = new Set(customWords.filter(w => w.type === 'translation')
+                        .flatMap(w => w.toLanguages || []));
+                    return languages.size >= 5;
+                },
+                getProgress: () => {
+                    const languages = new Set(customWords.filter(w => w.type === 'translation')
+                        .flatMap(w => w.toLanguages || []));
+                    return Math.min(languages.size, 5);
+                }
+            },
+            definitions20: {
+                name: 'Knowledge Seeker',
+                description: 'Add 20 custom definitions',
+                icon: '📖',
+                maxProgress: 20,
+                check: () => customWords.filter(w => w.type === 'definition').length >= 20,
+                getProgress: () => Math.min(customWords.filter(w => w.type === 'definition').length, 20)
+            }
+        };
+
+        function updateAchievements() {
+            const unlockedCount = userPreferences.achievements.length;
+            const totalCount = Object.keys(ACHIEVEMENTS).length;
+            
+            document.getElementById('unlockedCount').textContent = unlockedCount;
+            document.getElementById('totalCount').textContent = totalCount;
+            
+            Object.entries(ACHIEVEMENTS).forEach(([id, achievement]) => {
+                const el = document.getElementById(`achievement-${id}`);
+                if (!el) return;
+                
+                const isUnlocked = userPreferences.achievements.includes(id);
+                el.classList.toggle('unlocked', isUnlocked);
+                
+                const progress = achievement.getProgress?.() || (isUnlocked ? achievement.maxProgress : 0);
+                const progressPercent = (progress / achievement.maxProgress) * 100;
+                
+                const progressBar = el.querySelector('.progress-fill');
+                const progressText = el.querySelector('.progress-text');
+                
+                if (progressBar) {
+                    progressBar.style.width = `${progressPercent}%`;
+                }
+                if (progressText) {
+                    progressText.textContent = `${progress}/${achievement.maxProgress}`;
+                }
+            });
+        }
+
+        function checkAchievements() {
+            Object.entries(ACHIEVEMENTS).forEach(([id, achievement]) => {
+                if (!userPreferences.achievements.includes(id) && achievement.check()) {
+                    unlockAchievement(id);
+                }
+            });
+        }
+
+        function unlockAchievement(id) {
+            const achievement = ACHIEVEMENTS[id];
+            if (!achievement) return;
+            
+            if (!userPreferences.achievements.includes(id)) {
+                userPreferences.achievements.push(id);
+                showConfetti();
+                saveUserData();
+                
+                showAchievementNotification(`${achievement.icon} ${achievement.name} - ${achievement.description}`);
+                updateAchievements();
+            }
+        }
+
+        // Check achievements periodically
+        setInterval(checkAchievements, 5000);
+
+        // Update achievements when modal is shown
+        document.getElementById('achievementsModal').addEventListener('show', updateAchievements);
+    </script>
 </body>
 </html>
