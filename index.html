@@ -27,7 +27,6 @@
     </div>
   </section>
 
-  <!-- MAIN APP CONTAINER -->
   <div class="container glassy-card animate-float-delay2">
     <!-- LOGIN SCREEN -->
     <div id="login-screen" class="screen active">
@@ -40,17 +39,51 @@
       <button class="btn btn-accent" onclick="window.tryLogin()">Login</button>
       <div id="login-error"></div>
     </div>
+    <!-- Onboarding Modal -->
+    <div id="onboarding-modal" class="modal">
+      <div class="modal-content">
+        <form id="onboard-form">
+          <div class="onboard-step" id="onboard-step-lang">
+            <h2>Welcome! Choose your language pairs:</h2>
+            <label><input type="checkbox" name="langs" value="fr-nl"> French ⇄ Dutch</label><br>
+            <label><input type="checkbox" name="langs" value="en-nl"> English ⇄ Dutch</label><br>
+            <button type="button" class="btn btn-accent" id="onboard-next-motivation">Next</button>
+          </div>
+          <div class="onboard-step" id="onboard-step-motivation">
+            <h2>Why are you learning?</h2>
+            <select id="motivation">
+              <option value="school">School</option>
+              <option value="travel">Travel</option>
+              <option value="fun">Fun</option>
+            </select>
+            <button type="button" class="btn btn-accent" id="onboard-next-level">Next</button>
+          </div>
+          <div class="onboard-step" id="onboard-step-level">
+            <h2>Your Level</h2>
+            <div id="levels"></div>
+            <button type="submit" class="btn btn-accent">Finish</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <!-- Main App Screens -->
-    <div id="main-menu" class="screen animate-in-delay">
+    <div id="language-selector" style="display:none">
+      <label for="lang-choice">Quiz Language: </label>
+      <select id="lang-choice">
+        <option value="fr-nl">French ⇄ Dutch</option>
+        <option value="en-nl">English ⇄ Dutch</option>
+      </select>
+    </div>
+    <div id="main-menu" class="screen">
       <h1 class="centered-title neon-glow">Main Menu</h1>
       <div class="menu-list">
-        <button class="btn btn-accent menu-btn animate-float" onclick="showScreen('quiz-screen')"><span>🎯 Start Quiz</span></button>
+        <button class="btn btn-accent menu-btn animate-float" onclick="showQuizModeSelector()"><span>🎯 Start Quiz</span></button>
         <button class="btn btn-accent menu-btn animate-float-delay" onclick="showScreen('add-word-menu')"><span>➕ Add New Word</span></button>
         <button class="btn btn-accent menu-btn animate-float-delay2" onclick="showScreen('upload-bulk-menu')"><span>📤 Bulk Upload</span></button>
         <button class="btn btn-accent menu-btn animate-float-delay3" onclick="showScreen('practice-hard-menu')"><span>🔥 Practice Hard Words</span></button>
         <button class="btn btn-accent menu-btn animate-float-delay4" onclick="showScreen('practice-custom-menu')"><span>🧩 Practice Custom Words</span></button>
         <button class="btn btn-accent menu-btn" onclick="showStatsScreen()"><span>📊 View Stats</span></button>
-        <button class="btn btn-accent menu-btn" onclick="showModal('background-gallery-modal')"><span>🌈 Background Gallery</span></button>
+        <button class="btn btn-accent menu-btn" onclick="showBackgroundGallery()"><span>🌈 Background Gallery</span></button>
         <button class="btn btn-accent menu-btn" onclick="showModal('achievements-modal')"><span>🏆 Achievements</span></button>
         <button class="btn btn-accent menu-btn" onclick="showModal('privacy-modal')"><span>🔒 Privacy Policy</span></button>
         <button class="btn btn-accent menu-btn" onclick="showModal('shortcuts-modal')"><span>⌨️ Shortcuts & Help</span></button>
@@ -59,6 +92,10 @@
         <span id="god-mode-badge" style="display:none;">👑 God Mode</span>
         <button class="btn btn-accent menu-btn" id="admin-panel-btn" style="display:none;" onclick="showModal('admin-modal')"><span>🛠️ Admin Panel</span></button>
         <button class="btn btn-secondary menu-btn" onclick="window.logout()"><span>🚪 Logout</span></button>
+      </div>
+      <div style="margin: 1.3em 0 1.2em 0; text-align:center;">
+        <p>Words in vocabulary: <span id="vocab-count"></span></p>
+        <p>Hard words: <span id="hard-count"></span></p>
       </div>
       <div class="footer animate-fadein-delay2">
         <span class="emoji-bounce">✨</span> Made by Lars for students! <span class="emoji-bounce">📚</span>
@@ -170,6 +207,7 @@
     <div id="privacy-modal" class="modal"><div class="modal-content"><h2>Privacy Policy</h2><div id="privacy-content">All your data stays on your device. No tracking, no ads, no cloud. Your words, your progress, your privacy.</div><button class="btn" onclick="closeModal('privacy-modal')">Close</button></div></div>
     <div id="shortcuts-modal" class="modal"><div class="modal-content"><h2>Shortcuts & Help</h2><ul><li><b>Enter</b>: Submit answer</li><li><b>Esc</b>: Close modals</li><li><b>Ctrl+B</b>: Open Background Gallery</li><li><b>Ctrl+A</b>: Open Achievements</li><li><b>Ctrl+P</b>: Privacy Policy</li><li><b>Ctrl+H</b>: Shortcuts/Help</li></ul><button class="btn" onclick="closeModal('shortcuts-modal')">Close</button></div></div>
     <div id="admin-modal" class="modal"><div class="modal-content"><h2>Admin Panel</h2><div id="admin-panel-content">(Admin features go here)</div><button class="btn" onclick="closeModal('admin-modal')">Close</button></div></div>
+    <div id="quiz-mode-modal" class="modal"><div class="modal-content"><h2>Choose Quiz Mode</h2><div class="mode-options"><button class="btn mode-btn" data-mode="typing">⌨️ Typing</button><button class="btn mode-btn" data-mode="multiple">🔢 Multiple Choice</button><button class="btn mode-btn" data-mode="flashcard">🃏 Flashcard</button><button class="btn mode-btn" data-mode="listening">🔊 Listening</button></div><button class="btn" id="close-mode-modal">Close</button></div></div>
     <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;display:none;"></canvas>
   </div>
   <script src="script.js"></script>
