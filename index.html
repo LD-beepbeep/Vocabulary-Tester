@@ -2,63 +2,36 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Vocabulary Trainer</title>
+  <title>VOCAB TECH TRAINER</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <!-- Onboarding Modal -->
-  <div id="onboarding-modal" class="modal">
-    <div class="modal-content">
-      <h2>Welcome to Vocabulary Trainer!</h2>
-      <div id="onboard-step-1">
-        <p>Which language pair do you want to practice?</p>
-        <select id="onboard-lang-select">
-          <option value="fr-nl">French ⇄ Dutch</option>
-          <option value="en-nl">English ⇄ Dutch</option>
-        </select>
-        <button class="btn btn-accent" onclick="nextOnboardStep(2)">Next</button>
-      </div>
-      <div id="onboard-step-2" style="display:none;">
-        <p>What is your current level?</p>
-        <select id="onboard-level-select">
-          <option value="beginner">Beginner</option>
-          <option value="intermediate">Intermediate</option>
-          <option value="advanced">Advanced</option>
-        </select>
-        <button class="btn btn-accent" onclick="nextOnboardStep(3)">Next</button>
-      </div>
-      <div id="onboard-step-3" style="display:none;">
-        <p>What is your main goal?</p>
-        <select id="onboard-goal-select">
-          <option value="general">General vocabulary</option>
-          <option value="travel">Travel</option>
-          <option value="business">Business</option>
-          <option value="academic">Academic</option>
-        </select>
-        <button class="btn btn-accent" onclick="completeOnboarding()">Start Learning!</button>
+<body class="tech-bg">
+  <!-- Animated Techy Background Layers -->
+  <div class="bg-blob-layer"></div>
+  <div class="bg-sparkles"></div>
+  <div class="bg-blur"></div>
+
+  <!-- HERO SECTION -->
+  <section class="hero-section">
+    <div class="hero-content glassy-card animate-in">
+      <h1 class="hero-title neon-glow">VOCAB TECH TRAINER</h1>
+      <p class="hero-sub">Level up your language skills with a playful, techy, and beautiful experience.<br><span class="emoji-bounce">🚀</span></p>
+      <button class="btn btn-accent btn-hero animate-bounce" onclick="showScreen('main-menu')">Start Learning</button>
+      <div class="hero-icons">
+        <span class="icon-glass"><svg width="32" height="32" fill="none"><circle cx="16" cy="16" r="14" stroke="#38cfa7" stroke-width="3"/><circle cx="16" cy="16" r="7" fill="#4f8cff"/></svg></span>
+        <span class="icon-glass"><svg width="32" height="32" fill="none"><rect x="6" y="6" width="20" height="20" rx="6" stroke="#4f8cff" stroke-width="3"/><rect x="13" y="13" width="6" height="6" fill="#38cfa7"/></svg></span>
+        <span class="icon-glass"><svg width="32" height="32" fill="none"><polygon points="16,4 28,28 4,28" stroke="#ff5f5f" stroke-width="3" fill="#fff0"/><circle cx="16" cy="20" r="3" fill="#ff5f5f"/></svg></span>
       </div>
     </div>
-  </div>
-  <!-- Quiz Mode Selector Modal -->
-  <div id="quiz-mode-modal" class="modal">
-    <div class="modal-content">
-      <h2>Choose Quiz Mode</h2>
-      <div class="mode-options">
-        <button class="btn btn-accent mode-btn" data-mode="typing">Typing</button>
-        <button class="btn btn-accent mode-btn" data-mode="multiple">Multiple Choice</button>
-        <button class="btn btn-accent mode-btn" data-mode="flashcard">Flashcard</button>
-        <button class="btn btn-accent mode-btn" data-mode="listening">Listening</button>
-      </div>
-      <button class="btn" id="close-mode-modal">Cancel</button>
-    </div>
-  </div>
-  <!-- Main App Container -->
-  <div class="container">
+  </section>
+
+  <!-- MAIN APP CONTAINER -->
+  <div class="container glassy-card animate-float-delay2">
     <!-- LOGIN SCREEN -->
     <div id="login-screen" class="screen active">
-      <div id="login-header">VOC Trainer</div>
+      <div id="login-header" class="neon-glow">VOC Trainer</div>
       <div id="login-sub">Please log in!</div>
       <label for="login-username">Username</label>
       <input type="text" id="login-username" autocomplete="username" placeholder="Enter username">
@@ -68,38 +41,27 @@
       <div id="login-error"></div>
     </div>
     <!-- Main App Screens -->
-    <div id="language-selector" style="display:none">
-      <label for="lang-choice">Quiz Language: </label>
-      <select id="lang-choice">
-        <option value="fr-nl">French ⇄ Dutch</option>
-        <option value="en-nl">English ⇄ Dutch</option>
-      </select>
-    </div>
-    <div id="main-menu" class="screen">
-      <h1 class="centered-title">Vocabulary Trainer</h1>
+    <div id="main-menu" class="screen animate-in-delay">
+      <h1 class="centered-title neon-glow">Main Menu</h1>
       <div class="menu-list">
-        <button class="btn btn-secondary" onclick="showScreen('add-word-menu')">Add New Word</button>
-        <button class="btn btn-accent" onclick="showScreen('upload-bulk-menu')">Bulk Upload</button>
-        <button class="btn" id="start-quiz-btn">Start Quiz</button>
-        <button class="btn" onclick="showScreen('practice-hard-menu')">Practice Hard Words</button>
-        <button class="btn" onclick="showScreen('practice-custom-menu')">Practice Custom Words</button>
-        <button class="btn btn-secondary" onclick="showStatsScreen()">View Stats</button>
-        <button class="btn btn-secondary" onclick="window.logout()">Logout</button>
-        <button class="btn" onclick="showModal('background-gallery-modal')">Background Gallery</button>
-        <button class="btn" onclick="showModal('achievements-modal')">Achievements</button>
-        <button class="btn" onclick="showModal('privacy-modal')">Privacy Policy</button>
-        <button class="btn" onclick="showModal('shortcuts-modal')">Shortcuts & Help</button>
-        <button class="btn" id="dark-mode-toggle">Toggle Dark/Light Mode</button>
-        <button class="btn" id="sound-toggle">🔊 Sound</button>
+        <button class="btn btn-accent menu-btn animate-float" onclick="showScreen('quiz-screen')"><span>🎯 Start Quiz</span></button>
+        <button class="btn btn-accent menu-btn animate-float-delay" onclick="showScreen('add-word-menu')"><span>➕ Add New Word</span></button>
+        <button class="btn btn-accent menu-btn animate-float-delay2" onclick="showScreen('upload-bulk-menu')"><span>📤 Bulk Upload</span></button>
+        <button class="btn btn-accent menu-btn animate-float-delay3" onclick="showScreen('practice-hard-menu')"><span>🔥 Practice Hard Words</span></button>
+        <button class="btn btn-accent menu-btn animate-float-delay4" onclick="showScreen('practice-custom-menu')"><span>🧩 Practice Custom Words</span></button>
+        <button class="btn btn-accent menu-btn" onclick="showStatsScreen()"><span>📊 View Stats</span></button>
+        <button class="btn btn-accent menu-btn" onclick="showModal('background-gallery-modal')"><span>🌈 Background Gallery</span></button>
+        <button class="btn btn-accent menu-btn" onclick="showModal('achievements-modal')"><span>🏆 Achievements</span></button>
+        <button class="btn btn-accent menu-btn" onclick="showModal('privacy-modal')"><span>🔒 Privacy Policy</span></button>
+        <button class="btn btn-accent menu-btn" onclick="showModal('shortcuts-modal')"><span>⌨️ Shortcuts & Help</span></button>
+        <button class="btn btn-accent menu-btn" id="dark-mode-toggle"><span>🌓 Toggle Dark/Light Mode</span></button>
+        <button class="btn btn-accent menu-btn" id="sound-toggle"><span>🔊 Sound</span></button>
         <span id="god-mode-badge" style="display:none;">👑 God Mode</span>
-        <button class="btn" id="admin-panel-btn" style="display:none;" onclick="showModal('admin-modal')">Admin Panel</button>
+        <button class="btn btn-accent menu-btn" id="admin-panel-btn" style="display:none;" onclick="showModal('admin-modal')"><span>🛠️ Admin Panel</span></button>
+        <button class="btn btn-secondary menu-btn" onclick="window.logout()"><span>🚪 Logout</span></button>
       </div>
-      <div style="margin: 1.3em 0 1.2em 0;">
-        <p>Words in vocabulary: <span id="vocab-count"></span></p>
-        <p>Hard words: <span id="hard-count"></span></p>
-      </div>
-      <div class="footer">
-        Made by Lars for students! 📚
+      <div class="footer animate-fadein-delay2">
+        <span class="emoji-bounce">✨</span> Made by Lars for students! <span class="emoji-bounce">📚</span>
       </div>
     </div>
     <!-- Bulk Upload Screen -->
