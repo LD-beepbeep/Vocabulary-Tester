@@ -103,8 +103,29 @@ window.tryLogin = function() {
   const pw = document.getElementById('login-password').value;
   const error = document.getElementById('login-error');
   if (!uname || !pw) { error.textContent = "Please enter username and password."; return; }
-  localStorage.setItem("voc_user_current", uname);
-  showApp();
+  const userKey = `voc_user_${uname}`;
+  const stored = JSON.parse(localStorage.getItem(userKey) || "{}" );
+  if (!stored.password) {
+    localStorage.setItem(userKey, JSON.stringify({password: pw}));
+    localStorage.setItem("voc_user_current", uname);
+    showApp();
+    return;
+  }
+  if (stored.password === pw) {
+    localStorage.setItem("voc_user_current", uname);
+    showApp();
+    return;
+  }
+  if (confirm("Wrong password. Forgot password?")) {
+    const npw = prompt("Enter a new password:");
+    if (npw && npw.length >= 1) {
+      localStorage.setItem(userKey, JSON.stringify({password: npw}));
+      localStorage.setItem("voc_user_current", uname);
+      showApp();
+      return;
+    }
+  }
+  error.textContent = "Wrong password. Try again.";
 };
 // Enter to login
 document.getElementById('login-password').addEventListener('keydown',function(e){
@@ -116,7 +137,7 @@ function showApp() {
   document.getElementById('login-screen').style.display = "none";
   document.getElementById('login-screen').classList.remove("active");
   Array.from(document.querySelectorAll('.screen')).forEach(s=>{
-    if(s.id!=="login-screen"&&s.id!=="onboarding-screen") s.style.display="";
+    if(s.id!=="login-screen") s.style.display="";
     s.classList.remove('active');
   });
   document.getElementById('main-menu').classList.add('active');
@@ -132,10 +153,13 @@ window.logout = function() {
   document.getElementById('login-screen').style.display = "flex";
   document.getElementById('login-screen').classList.add('active');
   Array.from(document.querySelectorAll('.screen')).forEach(s=>{
-    if(s.id!=="login-screen"&&s.id!=="onboarding-screen") s.style.display="none";
+    if(s.id!=="login-screen") s.style.display="none";
     s.classList.remove('active');
   });
   document.getElementById('language-selector').style.display = "none";
+};
+window.currentUser = function() {
+  return localStorage.getItem("voc_user_current") || "";
 };
 // --- END login logic
 
