@@ -85,6 +85,14 @@
         <button class="btn" onclick="showScreen('practice-custom-menu')">Practice Custom Words</button>
         <button class="btn btn-secondary" onclick="showStatsScreen()">View Stats</button>
         <button class="btn btn-secondary" onclick="window.logout()">Logout</button>
+        <button class="btn" onclick="showModal('background-gallery-modal')">Background Gallery</button>
+        <button class="btn" onclick="showModal('achievements-modal')">Achievements</button>
+        <button class="btn" onclick="showModal('privacy-modal')">Privacy Policy</button>
+        <button class="btn" onclick="showModal('shortcuts-modal')">Shortcuts & Help</button>
+        <button class="btn" id="dark-mode-toggle">Toggle Dark/Light Mode</button>
+        <button class="btn" id="sound-toggle">🔊 Sound</button>
+        <span id="god-mode-badge" style="display:none;">👑 God Mode</span>
+        <button class="btn" id="admin-panel-btn" style="display:none;" onclick="showModal('admin-modal')">Admin Panel</button>
       </div>
       <div style="margin: 1.3em 0 1.2em 0;">
         <p>Words in vocabulary: <span id="vocab-count"></span></p>
@@ -194,6 +202,13 @@
         <button onclick="addToHardWords(false)" class="btn btn-secondary">Skip</button>
       </div>
     </div>
+    <!-- Modals -->
+    <div id="background-gallery-modal" class="modal"><div class="modal-content"><h2>Background Gallery</h2><div id="background-gallery-list"></div><button class="btn" onclick="closeModal('background-gallery-modal')">Close</button></div></div>
+    <div id="achievements-modal" class="modal"><div class="modal-content"><h2>Achievements</h2><div id="achievements-list"></div><button class="btn" onclick="closeModal('achievements-modal')">Close</button></div></div>
+    <div id="privacy-modal" class="modal"><div class="modal-content"><h2>Privacy Policy</h2><div id="privacy-content">All your data stays on your device. No tracking, no ads, no cloud. Your words, your progress, your privacy.</div><button class="btn" onclick="closeModal('privacy-modal')">Close</button></div></div>
+    <div id="shortcuts-modal" class="modal"><div class="modal-content"><h2>Shortcuts & Help</h2><ul><li><b>Enter</b>: Submit answer</li><li><b>Esc</b>: Close modals</li><li><b>Ctrl+B</b>: Open Background Gallery</li><li><b>Ctrl+A</b>: Open Achievements</li><li><b>Ctrl+P</b>: Privacy Policy</li><li><b>Ctrl+H</b>: Shortcuts/Help</li></ul><button class="btn" onclick="closeModal('shortcuts-modal')">Close</button></div></div>
+    <div id="admin-modal" class="modal"><div class="modal-content"><h2>Admin Panel</h2><div id="admin-panel-content">(Admin features go here)</div><button class="btn" onclick="closeModal('admin-modal')">Close</button></div></div>
+    <canvas id="confetti-canvas" style="position:fixed;top:0;left:0;width:100vw;height:100vh;pointer-events:none;z-index:9999;display:none;"></canvas>
   </div>
   <script src="script.js"></script>
 </body>
