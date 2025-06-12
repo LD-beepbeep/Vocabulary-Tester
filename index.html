@@ -12,23 +12,27 @@
         }
 
         :root {
-            --primary-color: #667eea;
-            --secondary-color: #764ba2;
-            --accent-color: #4ecdc4;
-            --success-color: #2ecc71;
-            --error-color: #e74c3c;
-            --warning-color: #f39c12;
+            --primary-color: #2563eb;
+            --secondary-color: #1e40af;
+            --accent-color: #0ea5e9;
+            --success-color: #22c55e;
+            --error-color: #ef4444;
+            --warning-color: #f59e0b;
             --text-color: #333;
             --bg-color: #f8f9fa;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --border-color: rgba(0, 0, 0, 0.1);
+            --card-bg: #ffffff;
+            --border-color: #e5e7eb;
+            --menu-bg: #ffffff;
+            --shadow-color: rgba(0, 0, 0, 0.1);
         }
 
         [data-theme="dark"] {
-            --text-color: #e0e0e0;
-            --bg-color: #1a1a1a;
-            --card-bg: rgba(30, 30, 30, 0.9);
-            --border-color: rgba(255, 255, 255, 0.1);
+            --text-color: #e5e7eb;
+            --bg-color: #111827;
+            --card-bg: #1f2937;
+            --border-color: #374151;
+            --menu-bg: #1f2937;
+            --shadow-color: rgba(0, 0, 0, 0.25);
         }
 
         body {
@@ -50,12 +54,17 @@
 
         .card {
             background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
+            border-radius: 12px;
             padding: 2rem;
             margin-bottom: 1rem;
-            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.37);
+            box-shadow: 0 4px 6px var(--shadow-color);
             border: 1px solid var(--border-color);
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 8px var(--shadow-color);
         }
 
         .login-screen {
@@ -187,6 +196,100 @@
             margin-bottom: 2rem;
         }
 
+        .menu-item.tools {
+            background: linear-gradient(135deg, var(--accent-color), var(--primary-color));
+            color: white;
+        }
+
+        .menu-item.tools:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px var(--shadow-color);
+        }
+
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .tool-card {
+            background: var(--menu-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border-color);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+            box-shadow: 0 6px 12px var(--shadow-color);
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .pomodoro-timer {
+            text-align: center;
+            font-size: 2.5rem;
+            margin: 1rem 0;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .calendar-day {
+            padding: 0.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+        }
+
+        .calendar-day.today {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .formula-card {
+            background: var(--card-bg);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .timeline-item {
+            position: relative;
+            padding-left: 2rem;
+            margin-bottom: 1rem;
+            border-left: 2px solid var(--accent-color);
+        }
+
+        .mindmap-container {
+            width: 100%;
+            height: 500px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
         .menu-item {
             background: var(--card-bg);
             padding: 1.5rem;
@@ -236,10 +339,56 @@
             background: var(--card-bg);
             padding: 2rem;
             border-radius: 15px;
-            max-width: 500px;
+            max-width: 800px;
             width: 90%;
-            max-height: 80vh;
+            max-height: 90vh;
             overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .modal-content h2 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-color);
+        }
+
+        .modal-content .btn {
+            margin-top: 1rem;
+        }
+
+        .modal-content .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .modal-content .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--card-bg);
+            color: var(--text-color);
+        }
+
+        .modal-content .form-control:focus {
+            border-color: var(--accent-color);
+            outline: none;
+        }
+
+        .modal-content .btn-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: var(--text-color);
+            cursor: pointer;
+            opacity: 0.7;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-content .btn-close:hover {
+            opacity: 1;
         }
 
         .quiz-question {
@@ -1153,6 +1302,301 @@
             flex: 1;
         }
 
+        /* Tools Styles */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .tool-card {
+            background: var(--card-bg);
+            border-radius: 10px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid var(--border-color);
+        }
+
+        .tool-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 12px var(--shadow-color);
+            border-color: var(--accent-color);
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        /* Calculator */
+        .calculator {
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        .calculator-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+            margin-top: 1rem;
+        }
+
+        .calculator-grid button {
+            padding: 1rem;
+            border: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .calculator-grid button:hover {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        /* Calendar */
+        .calendar-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-day {
+            padding: 1rem;
+            text-align: center;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+        }
+
+        .calendar-day.today {
+            background: var(--accent-color);
+            color: white;
+        }
+
+        .calendar-day.empty {
+            background: transparent;
+            border: none;
+        }
+
+        /* Todo List */
+        .todo-list {
+            margin-top: 2rem;
+        }
+
+        .todo-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .todo-item.done span {
+            text-decoration: line-through;
+            opacity: 0.7;
+        }
+
+        /* Documents */
+        .documents-list {
+            margin-bottom: 1rem;
+        }
+
+        .document-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Links */
+        .link-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Code Compiler */
+        .compiler-output {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            min-height: 100px;
+        }
+
+        /* Formulas */
+        .formula-card {
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Timeline */
+        .timeline-container {
+            position: relative;
+            padding-left: 2rem;
+        }
+
+        .timeline-item {
+            position: relative;
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 50%;
+            width: 1rem;
+            height: 1rem;
+            background: var(--accent-color);
+            border-radius: 50%;
+        }
+
+        /* Mindmap */
+        .mindmap-container {
+            width: 100%;
+            height: 400px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 1rem;
+        }
+
+        /* Pomodoro Timer */
+        .pomodoro-timer {
+            font-size: 3rem;
+            text-align: center;
+            margin: 2rem 0;
+            font-family: monospace;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .timer-settings {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            gap: 0.5rem;
+            align-items: center;
+            margin-top: 1rem;
+        }
+
+        /* Timetable */
+        .timetable-grid {
+            display: grid;
+            grid-template-columns: auto repeat(5, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .timetable-header {
+            padding: 0.5rem;
+            background: var(--accent-color);
+            color: white;
+            text-align: center;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+
+        .timetable-time {
+            padding: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        .timetable-cell {
+            padding: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            min-height: 60px;
+        }
+
+        /* Notes */
+        .note-card {
+            padding: 1rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .note-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        /* Password Manager */
+        .password-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .password-info {
+            display: grid;
+            gap: 0.5rem;
+        }
+
+        .password-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
         .achievement-info h3 {
             margin: 0 0 0.5rem;
             font-size: 1.1rem;
@@ -1293,7 +1737,7 @@
             <div class="login-screen">
                 <div class="card login-card glass-effect">
                     <div class="logo-container">
-                        <div class="logo">VOC Trainer</div>
+                    <div class="logo">VOC Trainer</div>
                         <div class="logo-subtitle">Your Universal Learning Hub ✨</div>
                     </div>
                     
@@ -1303,26 +1747,26 @@
                     </div>
                     
                     <div id="userLoginForm" class="login-form active">
-                        <div class="form-group">
-                            <label for="username">Username</label>
+                    <div class="form-group">
+                        <label for="username">Username</label>
                             <div class="input-icon-wrapper glass-input">
                                 <i class="fas fa-user"></i>
-                                <input type="text" id="username" class="form-control" placeholder="Enter username">
+                        <input type="text" id="username" class="form-control" placeholder="Enter username">
                             </div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="password">Password</label>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
                             <div class="input-icon-wrapper glass-input">
                                 <i class="fas fa-lock"></i>
-                                <input type="password" id="password" class="form-control" placeholder="Enter password">
+                        <input type="password" id="password" class="form-control" placeholder="Enter password">
                             </div>
-                        </div>
-                        
+                    </div>
+                    
                         <button class="btn btn-primary glass-btn" onclick="login('user')" style="width: 100%;">
                             <i class="fas fa-sign-in-alt"></i> Login
                         </button>
-                    </div>
+                </div>
 
                     <!-- Admin Login Form -->
                     <div id="adminLoginForm" class="login-form">
@@ -1389,27 +1833,27 @@
             <div class="menu-sections">
                 <div class="menu-section">
                     <h2>Language Learning</h2>
-                    <div class="menu-grid">
+            <div class="menu-grid">
                         <div class="menu-item glass-effect" onclick="showQuizModeModal()">
-                            <div class="menu-icon">🎯</div>
+                    <div class="menu-icon">🎯</div>
                             <div>Language Quiz</div>
-                        </div>
+                </div>
                         <div class="menu-item glass-effect" onclick="showScreen('addWordScreen')">
-                            <div class="menu-icon">➕</div>
+                    <div class="menu-icon">➕</div>
                             <div>Add Translations</div>
-                        </div>
+                </div>
                         <div class="menu-item glass-effect" onclick="showScreen('bulkUploadScreen')">
-                            <div class="menu-icon">📤</div>
-                            <div>Bulk Upload</div>
-                        </div>
+                    <div class="menu-icon">📤</div>
+                    <div>Bulk Upload</div>
+                </div>
                         <div class="menu-item glass-effect" onclick="showScreen('practiceHardScreen')">
-                            <div class="menu-icon">🔥</div>
-                            <div>Practice Hard Words</div>
-                        </div>
+                    <div class="menu-icon">🔥</div>
+                    <div>Practice Hard Words</div>
+                </div>
                         <div class="menu-item glass-effect" onclick="showLanguageSelection()">
                             <div class="menu-icon"><i class="fas fa-language"></i></div>
                             <div>Change Languages</div>
-                        </div>
+                </div>
                     </div>
                 </div>
 
@@ -1454,10 +1898,14 @@
                             <div class="menu-icon">⌨️</div>
                             <div>Shortcuts & Help</div>
                         </div>
+                        <div class="menu-item glass-effect tools" onclick="showScreen('toolsScreen')">
+                            <div class="menu-icon">🛠️</div>
+                            <div>Study Tools</div>
+                        </div>
                     </div>
                 </div>
+                </div>
             </div>
-        </div>
 
         <!-- Definitions Screen -->
         <div id="definitionsScreen" class="screen">
@@ -1533,7 +1981,7 @@
                 <!-- Word Translation Form -->
                 <div id="wordTranslationForm" class="add-form active">
                     <div class="language-selection-grid">
-                        <div class="form-group">
+                <div class="form-group">
                             <label>Source Language</label>
                             <div class="language-select">
                                 <div class="selected-languages" id="sourceLanguages"></div>
@@ -1541,9 +1989,9 @@
                                     <i class="fas fa-plus"></i> Add Language
                                 </button>
                             </div>
-                        </div>
-                        
-                        <div class="form-group">
+                </div>
+                
+                <div class="form-group">
                             <label>Target Language</label>
                             <div class="language-select">
                                 <div class="selected-languages" id="targetLanguages"></div>
@@ -1552,11 +2000,11 @@
                                 </button>
                             </div>
                         </div>
-                    </div>
-
+                </div>
+                
                     <div class="translations-container" id="translationsContainer">
                         <div class="translation-pair glass-effect">
-                            <div class="form-group">
+                <div class="form-group">
                                 <label>Original Word</label>
                                 <input type="text" class="form-control glass-input" placeholder="e.g., Bonjour">
                             </div>
@@ -1584,13 +2032,13 @@
                             <option value="history">History</option>
                             <option value="geography">Geography</option>
                             <option value="custom">Custom Category</option>
-                        </select>
-                    </div>
-
+                    </select>
+                </div>
+                
                     <div class="form-group" id="customCategoryGroup" style="display: none;">
                         <label>Custom Category Name</label>
                         <input type="text" class="form-control glass-input" id="customCategory" placeholder="Enter category name">
-                    </div>
+            </div>
 
                     <div class="form-group">
                         <label>Term</label>
@@ -1669,6 +2117,65 @@
                 <h2>Practice Custom Words</h2>
                 <p>Practice words you've added yourself.</p>
                 <button class="btn btn-primary" onclick="startCustomPractice()">Start Custom Practice</button>
+            </div>
+        </div>
+
+        <!-- Tools Screen -->
+        <div id="toolsScreen" class="screen">
+            <button class="btn btn-secondary back-btn" onclick="showScreen('mainMenu')">Back to Menu</button>
+            
+            <div class="card">
+                <h2>Study Tools</h2>
+                <div class="tools-grid">
+                    <div class="tool-card" onclick="showTool('calculator')">
+                        <div class="tool-icon">🧮</div>
+                        <h4>Calculator</h4>
+                    </div>
+                    <div class="tool-card" onclick="showTool('calendar')">
+                        <div class="tool-icon">📅</div>
+                        <h4>Calendar & ToDo</h4>
+                    </div>
+                    <div class="tool-card" onclick="showTool('documents')">
+                        <div class="tool-icon">📁</div>
+                        <h4>Documents</h4>
+                    </div>
+                    <div class="tool-card" onclick="showTool('links')">
+                        <div class="tool-icon">🔗</div>
+                        <h4>Quick Links</h4>
+                    </div>
+                    <div class="tool-card" onclick="showTool('compiler')">
+                        <div class="tool-icon">💻</div>
+                        <h4>Code Compiler</h4>
+                    </div>
+                    <div class="tool-card" onclick="showTool('formulas')">
+                        <div class="tool-icon">📐</div>
+                        <h4>Formulas</h4>
+                    </div>
+                    <div class="tool-card" onclick="showTool('timeline')">
+                        <div class="tool-icon">📊</div>
+                        <h4>Timeline Maker</h4>
+                    </div>
+                    <div class="tool-card" onclick="showTool('mindmap')">
+                        <div class="tool-icon">🧠</div>
+                        <h4>Mindmap</h4>
+                    </div>
+                    <div class="tool-card" onclick="showTool('pomodoro')">
+                        <div class="tool-icon">⏱️</div>
+                        <h4>Pomodoro Timer</h4>
+                    </div>
+                    <div class="tool-card" onclick="showTool('timetable')">
+                        <div class="tool-icon">📚</div>
+                        <h4>Class Timetable</h4>
+                    </div>
+                    <div class="tool-card" onclick="showTool('notes')">
+                        <div class="tool-icon">📝</div>
+                        <h4>Notes</h4>
+                    </div>
+                    <div class="tool-card" onclick="showTool('passwords')">
+                        <div class="tool-icon">🔒</div>
+                        <h4>Password Manager</h4>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1760,7 +2267,7 @@
     <div id="achievementsModal" class="modal">
         <div class="modal-content glass-effect">
             <div class="achievements-header">
-                <h2>Achievements</h2>
+            <h2>Achievements</h2>
                 <div class="achievement-stats">
                     <div class="achievement-stat">
                         <span id="unlockedCount">0</span>/<span id="totalCount">0</span>
@@ -1778,11 +2285,11 @@
                         <div class="achievement-progress">
                             <div class="progress-bar">
                                 <div class="progress-fill" style="width: 0%"></div>
-                            </div>
-                            <span class="progress-text">0/1</span>
-                        </div>
-                    </div>
                 </div>
+                            <span class="progress-text">0/1</span>
+                </div>
+                </div>
+            </div>
 
                 <div class="achievement" id="achievement-streak7">
                     <div class="achievement-icon">🔥</div>
@@ -1947,7 +2454,7 @@
                     <li><strong>Multiple Choice:</strong> Choose from 4 options</li>
                     <li><strong>Flashcard:</strong> Self-paced learning</li>
                     <li><strong>Listening:</strong> Type what you hear</li>
-                </ul>
+            </ul>
 
                 <h3>Features</h3>
                 <ul class="help-list">
@@ -2154,10 +2661,33 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    
+
     <script>
         // Global variables
         let currentUser = null;
+        let toolsData = {
+            calendar: {
+                todos: [],
+                events: []
+            },
+            documents: [],
+            links: [],
+            formulas: [],
+            timeline: [],
+            mindmap: {
+                nodes: [],
+                connections: []
+            },
+            pomodoro: {
+                workTime: 25,
+                breakTime: 5
+            },
+            timetable: {
+                classes: []
+            },
+            notes: [],
+            passwords: []
+        };
         let vocabulary = [
             { word: "abundant", definition: "existing in large quantities; plentiful", language: "en" },
             { word: "meticulous", definition: "showing great attention to detail; very careful", language: "en" },
@@ -2254,7 +2784,7 @@
             if (type === 'admin') {
                 // Hash the password for comparison (simple hash for demo)
                 const hashedPassword = btoa(password).split('').reverse().join('');
-                const correctHash = 'MzIxbmltZGE='; // admin123 hashed
+                const correctHash = 'YWRtaW4xMjM='; // admin123 hashed
                 
                 if (username === 'admin' && hashedPassword === correctHash) {
                     userPreferences.isAdmin = true;
@@ -2268,9 +2798,9 @@
                 }
             }
             
-            currentUser = username;
-            showScreen('mainMenu');
-            playSound('success');
+                currentUser = username;
+                showScreen('mainMenu');
+                playSound('success');
             saveUserData();
         }
 
@@ -2449,7 +2979,7 @@
                     
                 case 'multiple':
                     isCorrect = currentQuiz.selectedText === currentWord.definition;
-                    highlightCorrectAnswer();
+                        highlightCorrectAnswer();
                     break;
                     
                 case 'flashcard':
@@ -2828,12 +3358,12 @@
             if (bg) {
                 document.body.style.background = bg.bg;
                 document.body.setAttribute('data-text-theme', bg.textColor);
-                document.querySelectorAll('.bg-option').forEach(opt => opt.classList.remove('active'));
+            document.querySelectorAll('.bg-option').forEach(opt => opt.classList.remove('active'));
                 bgOption.classList.add('active');
-                
+            
                 userPreferences.currentBackground = bgId;
                 userPreferences.textTheme = bg.textColor;
-                saveUserData();
+            saveUserData();
                 
                 hideModal('backgroundModal');
                 playSound('success');
@@ -4128,6 +4658,629 @@
         document.getElementById('definitionsScreen')?.addEventListener('show', () => {
             filterDefinitions('all');
         });
+
+        // Tools functionality
+        function showTool(toolName) {
+            const toolContent = {
+                calculator: `
+                    <div class="card">
+                        <h3>Calculator</h3>
+                        <div class="calculator">
+                            <input type="text" id="calcDisplay" class="form-control" readonly>
+                            <div class="calculator-grid">
+                                <button onclick="appendToCalc('7')">7</button>
+                                <button onclick="appendToCalc('8')">8</button>
+                                <button onclick="appendToCalc('9')">9</button>
+                                <button onclick="appendToCalc('+')">+</button>
+                                <button onclick="appendToCalc('4')">4</button>
+                                <button onclick="appendToCalc('5')">5</button>
+                                <button onclick="appendToCalc('6')">6</button>
+                                <button onclick="appendToCalc('-')">-</button>
+                                <button onclick="appendToCalc('1')">1</button>
+                                <button onclick="appendToCalc('2')">2</button>
+                                <button onclick="appendToCalc('3')">3</button>
+                                <button onclick="appendToCalc('*')">×</button>
+                                <button onclick="appendToCalc('0')">0</button>
+                                <button onclick="appendToCalc('.')">.</button>
+                                <button onclick="calculateResult()">=</button>
+                                <button onclick="appendToCalc('/')">/</button>
+                                <button onclick="clearCalc()">C</button>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                calendar: `
+                    <div class="card">
+                        <h3>Calendar & ToDo</h3>
+                        <div class="calendar-container">
+                            <div class="calendar-header">
+                                <button onclick="prevMonth()">&lt;</button>
+                                <h4 id="currentMonth"></h4>
+                                <button onclick="nextMonth()">&gt;</button>
+                            </div>
+                            <div class="calendar-grid" id="calendarGrid"></div>
+                            <div class="todo-list">
+                                <h4>ToDo List</h4>
+                                <div id="todoList"></div>
+                                <div class="add-todo">
+                                    <input type="text" id="newTodo" class="form-control" placeholder="New task...">
+                                    <button onclick="addTodo()" class="btn btn-primary">Add</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `,
+                documents: `
+                    <div class="card">
+                        <h3>Document Storage</h3>
+                        <div class="documents-list" id="documentsList"></div>
+                        <div class="add-document">
+                            <input type="file" id="documentUpload" class="form-control">
+                            <button onclick="uploadDocument()" class="btn btn-primary">Upload</button>
+                        </div>
+                    </div>
+                `,
+                links: `
+                    <div class="card">
+                        <h3>Quick Links</h3>
+                        <div class="links-list" id="linksList"></div>
+                        <div class="add-link">
+                            <input type="text" id="linkTitle" class="form-control" placeholder="Link title">
+                            <input type="url" id="linkUrl" class="form-control" placeholder="URL">
+                            <button onclick="addLink()" class="btn btn-primary">Add Link</button>
+                        </div>
+                    </div>
+                `,
+                compiler: `
+                    <div class="card">
+                        <h3>Code Compiler</h3>
+                        <select id="language" class="form-control">
+                            <option value="python">Python</option>
+                            <option value="html">HTML</option>
+                        </select>
+                        <textarea id="code" class="form-control" rows="10"></textarea>
+                        <button onclick="runCode()" class="btn btn-primary">Run</button>
+                        <div id="output" class="compiler-output"></div>
+                    </div>
+                `,
+                formulas: `
+                    <div class="card">
+                        <h3>Formula Storage</h3>
+                        <div class="formulas-list" id="formulasList"></div>
+                        <div class="add-formula">
+                            <input type="text" id="formulaTitle" class="form-control" placeholder="Formula title">
+                            <textarea id="formulaContent" class="form-control" placeholder="Formula content"></textarea>
+                            <button onclick="addFormula()" class="btn btn-primary">Add Formula</button>
+                        </div>
+                    </div>
+                `,
+                timeline: `
+                    <div class="card">
+                        <h3>Timeline Maker</h3>
+                        <div class="timeline-container" id="timelineContainer"></div>
+                        <div class="add-event">
+                            <input type="text" id="eventTitle" class="form-control" placeholder="Event title">
+                            <input type="date" id="eventDate" class="form-control">
+                            <textarea id="eventDescription" class="form-control" placeholder="Event description"></textarea>
+                            <button onclick="addTimelineEvent()" class="btn btn-primary">Add Event</button>
+                        </div>
+                    </div>
+                `,
+                mindmap: `
+                    <div class="card">
+                        <h3>Mindmap</h3>
+                        <div class="mindmap-container" id="mindmapContainer"></div>
+                        <div class="add-node">
+                            <input type="text" id="nodeTitle" class="form-control" placeholder="Node title">
+                            <button onclick="addMindmapNode()" class="btn btn-primary">Add Node</button>
+                        </div>
+                    </div>
+                `,
+                pomodoro: `
+                    <div class="card">
+                        <h3>Pomodoro Timer</h3>
+                        <div class="pomodoro-timer" id="pomodoroTimer">25:00</div>
+                        <div class="timer-controls">
+                            <button onclick="startPomodoro()" class="btn btn-primary">Start</button>
+                            <button onclick="pausePomodoro()" class="btn btn-warning">Pause</button>
+                            <button onclick="resetPomodoro()" class="btn btn-secondary">Reset</button>
+                        </div>
+                        <div class="timer-settings">
+                            <label>Work Time (minutes):</label>
+                            <input type="number" id="workTime" value="25" min="1" max="60">
+                            <label>Break Time (minutes):</label>
+                            <input type="number" id="breakTime" value="5" min="1" max="30">
+                        </div>
+                    </div>
+                `,
+                timetable: `
+                    <div class="card">
+                        <h3>Class Timetable</h3>
+                        <div class="timetable-grid" id="timetableGrid"></div>
+                        <div class="add-class">
+                            <input type="text" id="className" class="form-control" placeholder="Class name">
+                            <select id="classDay" class="form-control">
+                                <option value="monday">Monday</option>
+                                <option value="tuesday">Tuesday</option>
+                                <option value="wednesday">Wednesday</option>
+                                <option value="thursday">Thursday</option>
+                                <option value="friday">Friday</option>
+                            </select>
+                            <input type="time" id="classTime" class="form-control">
+                            <button onclick="addClass()" class="btn btn-primary">Add Class</button>
+                        </div>
+                    </div>
+                `,
+                notes: `
+                    <div class="card">
+                        <h3>Notes</h3>
+                        <div class="notes-list" id="notesList"></div>
+                        <div class="add-note">
+                            <input type="text" id="noteTitle" class="form-control" placeholder="Note title">
+                            <textarea id="noteContent" class="form-control" placeholder="Note content"></textarea>
+                            <button onclick="addNote()" class="btn btn-primary">Add Note</button>
+                        </div>
+                    </div>
+                `,
+                passwords: `
+                    <div class="card">
+                        <h3>Password Manager</h3>
+                        <div class="passwords-list" id="passwordsList"></div>
+                        <div class="add-password">
+                            <input type="text" id="serviceName" class="form-control" placeholder="Service name">
+                            <input type="text" id="username" class="form-control" placeholder="Username">
+                            <input type="password" id="password" class="form-control" placeholder="Password">
+                            <button onclick="addPassword()" class="btn btn-primary">Add Password</button>
+                        </div>
+                    </div>
+                `
+            };
+
+            const modal = document.createElement('div');
+            modal.className = 'modal active';
+            modal.innerHTML = `
+                <div class="modal-content">
+                    ${toolContent[toolName]}
+                    <button class="btn btn-secondary" onclick="this.closest('.modal').remove()">Close</button>
+                </div>
+            `;
+            document.body.appendChild(modal);
+
+            // Initialize specific tool functionality
+            switch(toolName) {
+                case 'calendar':
+                    initializeCalendar();
+                    break;
+                case 'mindmap':
+                    initializeMindmap();
+                    break;
+                case 'pomodoro':
+                    initializePomodoro();
+                    break;
+                case 'timetable':
+                    initializeTimetable();
+                    break;
+            }
+        }
+
+        // Calculator functions
+        function appendToCalc(value) {
+            const display = document.getElementById('calcDisplay');
+            display.value += value;
+        }
+
+        function clearCalc() {
+            document.getElementById('calcDisplay').value = '';
+        }
+
+        function calculateResult() {
+            const display = document.getElementById('calcDisplay');
+            try {
+                display.value = eval(display.value);
+            } catch (e) {
+                display.value = 'Error';
+            }
+        }
+
+        // Calendar functions
+        function initializeCalendar() {
+            const today = new Date();
+            document.getElementById('currentMonth').textContent = 
+                today.toLocaleString('default', { month: 'long', year: 'numeric' });
+            updateCalendarGrid(today);
+            updateTodoList();
+        }
+
+        function updateCalendarGrid(date) {
+            const grid = document.getElementById('calendarGrid');
+            const firstDay = new Date(date.getFullYear(), date.getMonth(), 1);
+            const lastDay = new Date(date.getFullYear(), date.getMonth() + 1, 0);
+            
+            let html = '';
+            for (let i = 0; i < firstDay.getDay(); i++) {
+                html += '<div class="calendar-day empty"></div>';
+            }
+            
+            for (let i = 1; i <= lastDay.getDate(); i++) {
+                const isToday = i === date.getDate() && 
+                               date.getMonth() === new Date().getMonth() &&
+                               date.getFullYear() === new Date().getFullYear();
+                html += `
+                    <div class="calendar-day ${isToday ? 'today' : ''}">
+                        ${i}
+                    </div>
+                `;
+            }
+            
+            grid.innerHTML = html;
+        }
+
+        function updateTodoList() {
+            const list = document.getElementById('todoList');
+            list.innerHTML = toolsData.calendar.todos.map(todo => `
+                <div class="todo-item">
+                    <input type="checkbox" ${todo.done ? 'checked' : ''} 
+                           onchange="toggleTodo(${todo.id})">
+                    <span class="${todo.done ? 'done' : ''}">${todo.text}</span>
+                    <button onclick="deleteTodo(${todo.id})" class="btn btn-danger btn-sm">×</button>
+                </div>
+            `).join('');
+        }
+
+        function addTodo() {
+            const input = document.getElementById('newTodo');
+            const text = input.value.trim();
+            if (text) {
+                toolsData.calendar.todos.push({
+                    id: Date.now(),
+                    text,
+                    done: false
+                });
+                input.value = '';
+                updateTodoList();
+                saveUserData();
+            }
+        }
+
+        // Document storage functions
+        function uploadDocument() {
+            const input = document.getElementById('documentUpload');
+            const file = input.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    toolsData.documents.push({
+                        name: file.name,
+                        content: e.target.result,
+                        date: new Date().toISOString()
+                    });
+                    updateDocumentsList();
+                    saveUserData();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        function updateDocumentsList() {
+            const list = document.getElementById('documentsList');
+            list.innerHTML = toolsData.documents.map(doc => `
+                <div class="document-item">
+                    <span>${doc.name}</span>
+                    <div class="document-actions">
+                        <button onclick="downloadDocument('${doc.name}')" class="btn btn-primary btn-sm">Download</button>
+                        <button onclick="deleteDocument('${doc.name}')" class="btn btn-danger btn-sm">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Links management functions
+        function addLink() {
+            const title = document.getElementById('linkTitle').value.trim();
+            const url = document.getElementById('linkUrl').value.trim();
+            if (title && url) {
+                toolsData.links.push({ title, url });
+                updateLinksList();
+                saveUserData();
+                document.getElementById('linkTitle').value = '';
+                document.getElementById('linkUrl').value = '';
+            }
+        }
+
+        function updateLinksList() {
+            const list = document.getElementById('linksList');
+            list.innerHTML = toolsData.links.map(link => `
+                <div class="link-item">
+                    <a href="${link.url}" target="_blank">${link.title}</a>
+                    <button onclick="deleteLink('${link.title}')" class="btn btn-danger btn-sm">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        // Code compiler functions
+        function runCode() {
+            const language = document.getElementById('language').value;
+            const code = document.getElementById('code').value;
+            const output = document.getElementById('output');
+            
+            if (language === 'python') {
+                output.innerHTML = 'Python code execution requires a backend server.';
+            } else if (language === 'html') {
+                const iframe = document.createElement('iframe');
+                iframe.srcdoc = code;
+                output.innerHTML = '';
+                output.appendChild(iframe);
+            }
+        }
+
+        // Formula storage functions
+        function addFormula() {
+            const title = document.getElementById('formulaTitle').value.trim();
+            const content = document.getElementById('formulaContent').value.trim();
+            if (title && content) {
+                toolsData.formulas.push({ title, content });
+                updateFormulasList();
+                saveUserData();
+                document.getElementById('formulaTitle').value = '';
+                document.getElementById('formulaContent').value = '';
+            }
+        }
+
+        function updateFormulasList() {
+            const list = document.getElementById('formulasList');
+            list.innerHTML = toolsData.formulas.map(formula => `
+                <div class="formula-card">
+                    <h4>${formula.title}</h4>
+                    <p>${formula.content}</p>
+                    <button onclick="deleteFormula('${formula.title}')" class="btn btn-danger btn-sm">Delete</button>
+                </div>
+            `).join('');
+        }
+
+        // Timeline functions
+        function addTimelineEvent() {
+            const title = document.getElementById('eventTitle').value.trim();
+            const date = document.getElementById('eventDate').value;
+            const description = document.getElementById('eventDescription').value.trim();
+            
+            if (title && date) {
+                toolsData.timeline.push({ title, date, description });
+                toolsData.timeline.sort((a, b) => new Date(a.date) - new Date(b.date));
+                updateTimeline();
+                saveUserData();
+                
+                document.getElementById('eventTitle').value = '';
+                document.getElementById('eventDate').value = '';
+                document.getElementById('eventDescription').value = '';
+            }
+        }
+
+        function updateTimeline() {
+            const container = document.getElementById('timelineContainer');
+            container.innerHTML = toolsData.timeline.map(event => `
+                <div class="timeline-item">
+                    <div class="timeline-date">${new Date(event.date).toLocaleDateString()}</div>
+                    <div class="timeline-content">
+                        <h4>${event.title}</h4>
+                        <p>${event.description}</p>
+                        <button onclick="deleteTimelineEvent('${event.title}')" class="btn btn-danger btn-sm">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Mindmap functions
+        function initializeMindmap() {
+            // This would require a proper mindmap visualization library
+            const container = document.getElementById('mindmapContainer');
+            container.innerHTML = 'Mindmap visualization requires additional libraries.';
+        }
+
+        // Pomodoro timer functions
+        let pomodoroInterval;
+        let pomodoroTime;
+        let isPomodoroRunning = false;
+
+        function initializePomodoro() {
+            pomodoroTime = document.getElementById('workTime').value * 60;
+            updatePomodoroDisplay();
+        }
+
+        function startPomodoro() {
+            if (!isPomodoroRunning) {
+                isPomodoroRunning = true;
+                pomodoroInterval = setInterval(() => {
+                    pomodoroTime--;
+                    if (pomodoroTime <= 0) {
+                        clearInterval(pomodoroInterval);
+                        playSound('complete');
+                        alert('Pomodoro session complete!');
+                        resetPomodoro();
+                    }
+                    updatePomodoroDisplay();
+                }, 1000);
+            }
+        }
+
+        function pausePomodoro() {
+            clearInterval(pomodoroInterval);
+            isPomodoroRunning = false;
+        }
+
+        function resetPomodoro() {
+            clearInterval(pomodoroInterval);
+            isPomodoroRunning = false;
+            pomodoroTime = document.getElementById('workTime').value * 60;
+            updatePomodoroDisplay();
+        }
+
+        function updatePomodoroDisplay() {
+            const minutes = Math.floor(pomodoroTime / 60);
+            const seconds = pomodoroTime % 60;
+            document.getElementById('pomodoroTimer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        // Timetable functions
+        function initializeTimetable() {
+            updateTimetable();
+        }
+
+        function addClass() {
+            const name = document.getElementById('className').value.trim();
+            const day = document.getElementById('classDay').value;
+            const time = document.getElementById('classTime').value;
+            
+            if (name && day && time) {
+                toolsData.timetable.classes.push({ name, day, time });
+                toolsData.timetable.classes.sort((a, b) => a.time.localeCompare(b.time));
+                updateTimetable();
+                saveUserData();
+                
+                document.getElementById('className').value = '';
+                document.getElementById('classTime').value = '';
+            }
+        }
+
+        function updateTimetable() {
+            const grid = document.getElementById('timetableGrid');
+            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
+            
+            let html = '<div class="timetable-header">Time</div>';
+            days.forEach(day => {
+                html += `<div class="timetable-header">${day.charAt(0).toUpperCase() + day.slice(1)}</div>`;
+            });
+            
+            const timeSlots = Array.from(new Set(toolsData.timetable.classes.map(c => c.time))).sort();
+            timeSlots.forEach(time => {
+                html += `<div class="timetable-time">${time}</div>`;
+                days.forEach(day => {
+                    const classInfo = toolsData.timetable.classes.find(c => c.day === day && c.time === time);
+                    html += `
+                        <div class="timetable-cell">
+                            ${classInfo ? `
+                                <div class="class-info">
+                                    ${classInfo.name}
+                                    <button onclick="deleteClass('${classInfo.name}')" class="btn btn-danger btn-sm">×</button>
+                                </div>
+                            ` : ''}
+                        </div>
+                    `;
+                });
+            });
+            
+            grid.innerHTML = html;
+        }
+
+        // Notes functions
+        function addNote() {
+            const title = document.getElementById('noteTitle').value.trim();
+            const content = document.getElementById('noteContent').value.trim();
+            
+            if (title && content) {
+                toolsData.notes.push({
+                    id: Date.now(),
+                    title,
+                    content,
+                    date: new Date().toISOString()
+                });
+                updateNotesList();
+                saveUserData();
+                
+                document.getElementById('noteTitle').value = '';
+                document.getElementById('noteContent').value = '';
+            }
+        }
+
+        function updateNotesList() {
+            const list = document.getElementById('notesList');
+            list.innerHTML = toolsData.notes.map(note => `
+                <div class="note-card">
+                    <div class="note-header">
+                        <h4>${note.title}</h4>
+                        <small>${new Date(note.date).toLocaleDateString()}</small>
+                    </div>
+                    <p>${note.content}</p>
+                    <div class="note-actions">
+                        <button onclick="editNote(${note.id})" class="btn btn-primary btn-sm">Edit</button>
+                        <button onclick="deleteNote(${note.id})" class="btn btn-danger btn-sm">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Password manager functions
+        function addPassword() {
+            const service = document.getElementById('serviceName').value.trim();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value;
+            
+            if (service && username && password) {
+                // Simple encryption (not secure, just for demo)
+                const encryptedPassword = btoa(password);
+                toolsData.passwords.push({
+                    service,
+                    username,
+                    password: encryptedPassword
+                });
+                updatePasswordsList();
+                saveUserData();
+                
+                document.getElementById('serviceName').value = '';
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            }
+        }
+
+        function updatePasswordsList() {
+            const list = document.getElementById('passwordsList');
+            list.innerHTML = toolsData.passwords.map(entry => `
+                <div class="password-item">
+                    <div class="password-info">
+                        <strong>${entry.service}</strong>
+                        <span>${entry.username}</span>
+                        <input type="password" value="${atob(entry.password)}" readonly>
+                    </div>
+                    <div class="password-actions">
+                        <button onclick="togglePasswordVisibility(this)" class="btn btn-primary btn-sm">Show</button>
+                        <button onclick="deletePassword('${entry.service}')" class="btn btn-danger btn-sm">Delete</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function togglePasswordVisibility(button) {
+            const input = button.parentElement.previousElementSibling.querySelector('input');
+            if (input.type === 'password') {
+                input.type = 'text';
+                button.textContent = 'Hide';
+            } else {
+                input.type = 'password';
+                button.textContent = 'Show';
+            }
+        }
+
+        // Save all tool data
+        function saveUserData() {
+            localStorage.setItem('vocToolsData', JSON.stringify(toolsData));
+            localStorage.setItem('vocUserPreferences', JSON.stringify(userPreferences));
+        }
+
+        // Load all tool data
+        function loadUserData() {
+            const savedToolsData = localStorage.getItem('vocToolsData');
+            if (savedToolsData) {
+                toolsData = JSON.parse(savedToolsData);
+            }
+            
+            const savedPreferences = localStorage.getItem('vocUserPreferences');
+            if (savedPreferences) {
+                userPreferences = JSON.parse(savedPreferences);
+            }
+        }
+
+        // Load data on startup
+        loadUserData();
     </script>
 </body>
 </html>
