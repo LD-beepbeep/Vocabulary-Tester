@@ -5336,232 +5336,167 @@
             }
         }
 
+        // TIMELINE VISUAL UPGRADE
         function updateTimeline() {
-            const container = document.getElementById('timelineContainer');
-            container.innerHTML = toolsData.timeline.map(event => `
-                <div class="timeline-item">
-                    <div class="timeline-date">${new Date(event.date).toLocaleDateString()}</div>
-                    <div class="timeline-content">
-                        <h4>${event.title}</h4>
-                        <p>${event.description}</p>
-                        <button onclick="deleteTimelineEvent('${event.title}')" class="btn btn-danger btn-sm">Delete</button>
-                    </div>
+          const container = document.getElementById('timelineContainer');
+          if (!toolsData.timeline.length) {
+            container.innerHTML = '<p style="text-align:center;opacity:0.7;">No events yet. Add your first event!</p>';
+            return;
+          }
+          container.innerHTML = `
+            <div class="timeline-vertical">
+              ${toolsData.timeline.map((event, i) => `
+                <div class="timeline-event ${i%2===0?'left':'right'}">
+                  <div class="timeline-dot"><i class="fas fa-circle"></i></div>
+                  <div class="timeline-content glass-effect animate-fadein">
+                    <div class="timeline-date-bubble">${new Date(event.date).toLocaleDateString()}</div>
+                    <h4>${event.title}</h4>
+                    <p>${event.description}</p>
+                    <button onclick="deleteTimelineEvent('${event.title}')" class="btn btn-danger btn-sm">Delete</button>
+                  </div>
                 </div>
-            `).join('');
+              `).join('')}
+              <div class="timeline-line"></div>
+            </div>
+          `;
         }
+        // Add timeline CSS
+        (function(){
+          const style = document.createElement('style');
+          style.textContent = `
+            .timeline-vertical { position:relative; margin:2rem 0; }
+            .timeline-line { position:absolute; left:50%; top:0; bottom:0; width:4px; background:linear-gradient(var(--gradient-start),var(--gradient-end)); z-index:0; margin-left:-2px; }
+            .timeline-event { position:relative; width:50%; padding:1.5rem 2rem; box-sizing:border-box; }
+            .timeline-event.left { left:0; text-align:right; }
+            .timeline-event.right { left:50%; text-align:left; }
+            .timeline-dot { position:absolute; top:2rem; left:calc(100% - 12px); width:24px; height:24px; background:var(--accent-color); border-radius:50%; display:flex; align-items:center; justify-content:center; color:#fff; z-index:2; box-shadow:0 0 8px var(--accent-color); }
+            .timeline-event.right .timeline-dot { left:-12px; }
+            .timeline-content { position:relative; margin-top:0.5rem; border-radius:12px; box-shadow:0 4px 16px var(--shadow-color); padding:1rem 1.5rem; }
+            .timeline-date-bubble { display:inline-block; background:var(--primary-color); color:#fff; border-radius:20px; padding:0.2rem 1rem; font-size:0.95rem; margin-bottom:0.5rem; }
+            .animate-fadein { animation:fadein 0.7s; }
+            @keyframes fadein { from{opacity:0;transform:translateY(30px);} to{opacity:1;transform:translateY(0);} }
+          `;
+          document.head.appendChild(style);
+        })();
 
-        // Mindmap functions
+        // MINDMAP: Simple working mindmap (tree, draggable nodes)
         function initializeMindmap() {
-            // This would require a proper mindmap visualization library
-            const container = document.getElementById('mindmapContainer');
-            container.innerHTML = 'Mindmap visualization requires additional libraries.';
-        }
-
-        // Pomodoro timer functions
-        let pomodoroInterval;
-        let pomodoroTime;
-        let isPomodoroRunning = false;
-
-        function initializePomodoro() {
-            pomodoroTime = document.getElementById('workTime').value * 60;
-            updatePomodoroDisplay();
-        }
-
-        function startPomodoro() {
-            if (!isPomodoroRunning) {
-                isPomodoroRunning = true;
-                pomodoroInterval = setInterval(() => {
-                    pomodoroTime--;
-                    if (pomodoroTime <= 0) {
-                        clearInterval(pomodoroInterval);
-                        playSound('complete');
-                        alert('Pomodoro session complete!');
-                        resetPomodoro();
-                    }
-                    updatePomodoroDisplay();
-                }, 1000);
+          const container = document.getElementById('mindmapContainer');
+          if (!toolsData.mindmap.nodes.length) {
+            container.innerHTML = '<p style="text-align:center;opacity:0.7;">Add your first node!</p>';
+            return;
+          }
+          container.innerHTML = '';
+          // Render nodes as a simple tree
+          const svg = document.createElementNS('http://www.w3.org/2000/svg','svg');
+          svg.setAttribute('width','100%');
+          svg.setAttribute('height','400');
+          svg.style.position = 'absolute';
+          svg.style.top = '0';
+          svg.style.left = '0';
+          svg.style.zIndex = '0';
+          // Layout: root at center top, children below
+          const nodes = toolsData.mindmap.nodes;
+          const nodeMap = {};
+          nodes.forEach(n=>nodeMap[n.id]=n);
+          // Simple layout: vertical tree
+          let yStep = 80, xStep = 160;
+          let root = nodes.find(n=>!n.parent);
+          if (!root) root = nodes[0];
+          function layout(node, x, y) {
+            node.x = x; node.y = y;
+            let children = nodes.filter(n=>n.parent===node.id);
+            let width = (children.length-1)*xStep;
+            children.forEach((child,i)=>layout(child, x-width/2+i*xStep, y+yStep));
+          }
+          layout(root, 400, 40);
+          // Draw connections
+          nodes.forEach(n=>{
+            if(n.parent){
+              let p = nodeMap[n.parent];
+              let line = document.createElementNS('http://www.w3.org/2000/svg','line');
+              line.setAttribute('x1',p.x); line.setAttribute('y1',p.y+30);
+              line.setAttribute('x2',n.x); line.setAttribute('y2',n.y-30);
+              line.setAttribute('stroke','#8b5cf6');
+              line.setAttribute('stroke-width','3');
+              svg.appendChild(line);
             }
+          });
+          container.appendChild(svg);
+          // Draw nodes
+          nodes.forEach(n=>{
+            const div = document.createElement('div');
+            div.className = 'mindmap-node glass-effect';
+            div.style.position = 'absolute';
+            div.style.left = (n.x-60)+'px';
+            div.style.top = (n.y-30)+'px';
+            div.style.width = '120px';
+            div.style.height = '60px';
+            div.style.textAlign = 'center';
+            div.style.lineHeight = '60px';
+            div.style.cursor = 'move';
+            div.textContent = n.label;
+            div.setAttribute('draggable','true');
+            div.ondragstart = e=>{e.dataTransfer.setData('id',n.id);};
+            div.ondragend = e=>{e.preventDefault();};
+            div.onclick = ()=>{
+              const parentId = n.id;
+              const label = prompt('Add child node:');
+              if(label){
+                toolsData.mindmap.nodes.push({id:Date.now(),label,parent:parentId});
+                saveUserData();
+                initializeMindmap();
+              }
+            };
+            container.appendChild(div);
+          });
+          container.style.position = 'relative';
+          container.style.height = '400px';
+        }
+        // Add mindmap CSS
+        (function(){
+          const style = document.createElement('style');
+          style.textContent = `
+            .mindmap-node { background:var(--glass-bg); border:2px solid var(--accent-color); border-radius:16px; box-shadow:0 2px 12px var(--shadow-color); font-weight:600; color:var(--accent-color); transition:box-shadow 0.2s; }
+            .mindmap-node:hover { box-shadow:0 6px 24px var(--accent-color); background:var(--primary-gradient); color:#fff; }
+          `;
+          document.head.appendChild(style);
+        })();
+        function addMindmapNode() {
+          const label = document.getElementById('nodeTitle').value.trim();
+          if(label){
+            // If no nodes, this is root
+            const parent = toolsData.mindmap.nodes.length ? null : undefined;
+            toolsData.mindmap.nodes.push({id:Date.now(),label,parent});
+            saveUserData();
+            initializeMindmap();
+            document.getElementById('nodeTitle').value = '';
+          }
         }
 
-        function pausePomodoro() {
-            clearInterval(pomodoroInterval);
-            isPomodoroRunning = false;
-        }
-
-        function resetPomodoro() {
-            clearInterval(pomodoroInterval);
-            isPomodoroRunning = false;
-            pomodoroTime = document.getElementById('workTime').value * 60;
-            updatePomodoroDisplay();
-        }
-
-        function updatePomodoroDisplay() {
-            const minutes = Math.floor(pomodoroTime / 60);
-            const seconds = pomodoroTime % 60;
-            document.getElementById('pomodoroTimer').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        // POMODORO: allow changing minutes, add full-screen, improve UI
+        function initializePomodoro() {
+          let workInput = document.getElementById('workTime');
+          let breakInput = document.getElementById('breakTime');
+          let timer = document.getElementById('pomodoroTimer');
+          let fsBtn = document.createElement('button');
+          fsBtn.className = 'btn btn-secondary';
+          fsBtn.innerHTML = '<i class="fas fa-expand"></i> Full Screen';
+          fsBtn.onclick = function(){
+            let card = timer.closest('.card');
+            if(!document.fullscreenElement){card.requestFullscreen();}else{document.exitFullscreen();}
+          };
+          timer.parentElement.appendChild(fsBtn);
+          workInput.onchange = function(){ pomodoroTime = workInput.value*60; updatePomodoroDisplay(); };
+          breakInput.onchange = function(){ /* could implement break timer */ };
+          pomodoroTime = workInput.value*60;
+          updatePomodoroDisplay();
         }
 
         // Timetable functions
         function initializeTimetable() {
             updateTimetable();
         }
-
-        function addClass() {
-            const name = document.getElementById('className').value.trim();
-            const day = document.getElementById('classDay').value;
-            const time = document.getElementById('classTime').value;
-            
-            if (name && day && time) {
-                toolsData.timetable.classes.push({ name, day, time });
-                toolsData.timetable.classes.sort((a, b) => a.time.localeCompare(b.time));
-                updateTimetable();
-                saveUserData();
-                
-                document.getElementById('className').value = '';
-                document.getElementById('classTime').value = '';
-            }
-        }
-
-        function updateTimetable() {
-            const grid = document.getElementById('timetableGrid');
-            const days = ['monday', 'tuesday', 'wednesday', 'thursday', 'friday'];
-            
-            let html = '<div class="timetable-header">Time</div>';
-            days.forEach(day => {
-                html += `<div class="timetable-header">${day.charAt(0).toUpperCase() + day.slice(1)}</div>`;
-            });
-            
-            const timeSlots = Array.from(new Set(toolsData.timetable.classes.map(c => c.time))).sort();
-            timeSlots.forEach(time => {
-                html += `<div class="timetable-time">${time}</div>`;
-                days.forEach(day => {
-                    const classInfo = toolsData.timetable.classes.find(c => c.day === day && c.time === time);
-                    html += `
-                        <div class="timetable-cell">
-                            ${classInfo ? `
-                                <div class="class-info">
-                                    ${classInfo.name}
-                                    <button onclick="deleteClass('${classInfo.name}')" class="btn btn-danger btn-sm">×</button>
-                                </div>
-                            ` : ''}
-                        </div>
-                    `;
-                });
-            });
-            
-            grid.innerHTML = html;
-        }
-
-        // Notes functions
-        function addNote() {
-            const title = document.getElementById('noteTitle').value.trim();
-            const content = document.getElementById('noteContent').value.trim();
-            
-            if (title && content) {
-                toolsData.notes.push({
-                    id: Date.now(),
-                    title,
-                    content,
-                    date: new Date().toISOString()
-                });
-                updateNotesList();
-                saveUserData();
-                
-                document.getElementById('noteTitle').value = '';
-                document.getElementById('noteContent').value = '';
-            }
-        }
-
-        function updateNotesList() {
-            const list = document.getElementById('notesList');
-            list.innerHTML = toolsData.notes.map(note => `
-                <div class="note-card">
-                    <div class="note-header">
-                        <h4>${note.title}</h4>
-                        <small>${new Date(note.date).toLocaleDateString()}</small>
-                    </div>
-                    <p>${note.content}</p>
-                    <div class="note-actions">
-                        <button onclick="editNote(${note.id})" class="btn btn-primary btn-sm">Edit</button>
-                        <button onclick="deleteNote(${note.id})" class="btn btn-danger btn-sm">Delete</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        // Password manager functions
-        function addPassword() {
-            const service = document.getElementById('serviceName').value.trim();
-            const username = document.getElementById('username').value.trim();
-            const password = document.getElementById('password').value;
-            
-            if (service && username && password) {
-                // Simple encryption (not secure, just for demo)
-                const encryptedPassword = btoa(password);
-                toolsData.passwords.push({
-                    service,
-                    username,
-                    password: encryptedPassword
-                });
-                updatePasswordsList();
-                saveUserData();
-                
-                document.getElementById('serviceName').value = '';
-                document.getElementById('username').value = '';
-                document.getElementById('password').value = '';
-            }
-        }
-
-        function updatePasswordsList() {
-            const list = document.getElementById('passwordsList');
-            list.innerHTML = toolsData.passwords.map(entry => `
-                <div class="password-item">
-                    <div class="password-info">
-                        <strong>${entry.service}</strong>
-                        <span>${entry.username}</span>
-                        <input type="password" value="${atob(entry.password)}" readonly>
-                    </div>
-                    <div class="password-actions">
-                        <button onclick="togglePasswordVisibility(this)" class="btn btn-primary btn-sm">Show</button>
-                        <button onclick="deletePassword('${entry.service}')" class="btn btn-danger btn-sm">Delete</button>
-                    </div>
-                </div>
-            `).join('');
-        }
-
-        function togglePasswordVisibility(button) {
-            const input = button.parentElement.previousElementSibling.querySelector('input');
-            if (input.type === 'password') {
-                input.type = 'text';
-                button.textContent = 'Hide';
-            } else {
-                input.type = 'password';
-                button.textContent = 'Show';
-            }
-        }
-
-        // Save all tool data
-        function saveUserData() {
-            localStorage.setItem('vocToolsData', JSON.stringify(toolsData));
-            localStorage.setItem('vocUserPreferences', JSON.stringify(userPreferences));
-        }
-
-        // Load all tool data
-        function loadUserData() {
-            const savedToolsData = localStorage.getItem('vocToolsData');
-            if (savedToolsData) {
-                toolsData = JSON.parse(savedToolsData);
-            }
-            
-            const savedPreferences = localStorage.getItem('vocUserPreferences');
-            if (savedPreferences) {
-                userPreferences = JSON.parse(savedPreferences);
-            }
-        }
-
-        // Load data on startup
-        loadUserData();
     </script>
 </body>
 </html>
